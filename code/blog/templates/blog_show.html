@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link type="text/css" href="/home/cjyfff/simple_blog/static/css/code.css" rel="stylesheet">
+</head>
+<body>
+{% load comments %}
+<div class="content">
+　　 <h2>{{ post.title }}</h2>
+    <h2>{{ post.timestamp }}<h2>
+    <h2>{{ post.author }}</h2>
+    {% load text_markup %}
+    <p>{{ post.body|markdown }} </p>
+    {% if paths %}
+        {% for path in paths %}
+            <p><small>附图：{{ path }}</small></p>
+            <img src="/home/cjyfff/media/photos/photos/0f11a2686a1359966762_1.jpg" />
+            <img src="{{ path }}"/>
+        {% endfor %}
+    {% endif %}
+    {% get_comment_count for post as comment_count %}
+    <p><small>这篇文章有 {{ comment_count }} 条评论：</small></p>
+    {% get_comment_list for post as comment_list %}
+    {% for comment in comment_list %}
+        <p><small>{{ comment }}</small></p>
+    {% endfor %}
+</div>
+
+</body>
+</html>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<body>
+<p>下一篇文章：
+{% if next_post %}
+    <a href="{% url 'detailblog' next_post.id %}">{{ next_post.title }}</a>
+{% else %}
+    没有了
+{% endif %}
+</p>
+<p>上一篇文章：
+{% if pre_post %}
+    <a href="{% url 'detailblog' pre_post.id %}">{{ pre_post.title }}</a>
+{% else %}
+    没有了
+{% endif %}
+</p>
+<p><a href="{% url 'indexpage' %}">返回主页</a></p>
+
+</body>
+</html>

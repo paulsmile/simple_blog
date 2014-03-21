@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+{% for post in posts %}
+<h2><a href="{% url 'detailblog' post.id %}">{{ post.title }}</a></h2>
+<p>摘要：<p>
+<p>{{ post.body|truncatechars:200 }}</p>
+<p>{{ post.timestamp }}</p>
+{% endfor %}
+{% endblock %}

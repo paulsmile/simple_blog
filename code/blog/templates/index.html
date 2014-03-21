@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>CJYFFF的简单BLOG</title>
+</head>
+
+<body>
+<h1>CJYFFF的简单BLOG</h1>
+
+{% for post in posts %}
+<!--下面语句是要重定向到detailblog这个url，并且把post.id传给这个url-->
+<h2><a href="{% url 'detailblog' post.id %}">{{ post.title }}</a></h2>
+<p>文章摘要：<p>
+<p>{{ post.body|truncatechars:200 }}
+    <a href="{% url 'detailblog' post.id %}">{阅览全文}</a>
+</p>
+<p>{{ post.timestamp }}</p>
+{% endfor %}
+
+</body>
+</html>

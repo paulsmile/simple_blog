@@ -1,0 +1,13 @@
+<html>
+<style type="text/css">
+body { color: #7AEBD4; background: #FFFFFF; padding: 0 5em; margin:0 }
+h1 { padding: 2em lem; background: #000079 }
+h2 { color: #0000E3; border-top: 1px dotted #0033FF;margin-top: 2em }
+p { margin: lem 0; color: #0000E3 }
+</style>
+<body>
+<h1>CJYFFF的简单BLOG</h1>
+{% block content %}
+{% endblock %}
+</body>
+</html>
