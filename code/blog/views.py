@@ -26,15 +26,28 @@ def blog_show(request, id=''):
         post = BlogPost.objects.get(id=id)
     except BlogPost.DoesNotExist:
         raise Http404
-    photos = post.photo_set.all()
-    n = len(photos)
-    paths = []
+
     i = 1
-    while i<n+1:
-        paths.append(photos.get(id=i).image.path)
+    photos = post.photo_set.all()
+    photos_num = len(photos)
+    photos_paths = []
+    while i < photos_num+1:
+        photos_paths.append(photos.get(id=i).image.path)
         i += 1
+
+    j = 1
+    codes = post.code_set.all()
+    codes_num = len(codes)
+    codes_contents = []
+    while j < codes_num+1:
+        codes_contents.append(codes.get(id=j).content)
+        j += 1
+
     return render_to_response('blog_show.html',
-                      {'post': post, 'paths': paths}
+                               {'post': post, 
+                                'photos_paths': photos_paths,
+                                'codes_contents': codes_contents
+                              }
            )
 
 
@@ -51,5 +64,5 @@ def control_blog_show(request, id):
     except BlogPost.DoesNotExist:
         rs["pre"] = 0
     return render_to_response('blog_control.html',
-                              {'next_post': rs["next"], 'pre_post': rs["pre"]}
+                {'next_post': rs["next"], 'pre_post': rs["pre"]}
            )

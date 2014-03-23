@@ -11,8 +11,14 @@
     <h2>{{ post.author }}</h2>
     {% load text_markup %}
     <p>{{ post.body|markdown }} </p>
-    {% if paths %}
-        {% for path in paths %}
+    
+    {% if codes_contents %}
+        {% for codes in codes_contents %}
+            <p>{{ codes }}</p>
+        {% endfor %}
+    {% endif %}    
+    {% if photos_paths %}
+        {% for path in photos_paths %}
             <p><small>附图：{{ path }}</small></p>
             <img src="/home/cjyfff/media/photos/photos/0f11a2686a1359966762_1.jpg" />
             <img src="{{ path }}"/>
