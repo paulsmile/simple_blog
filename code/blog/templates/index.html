@@ -1,15 +1,22 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta charset="utf-8">
+{% load static from staticfiles %}
+<link href="{% static "css/bootstrap.css" %}" rel="stylesheet">
+<meta name="viewport" content="width=device-wdith,initial-scale=1.0"></meta>
+<!-- [if lt IE 9]>
+    <script  src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+<![endif] -->
 <title>CJYFFF的简单BLOG</title>
 </head>
 
 <body>
-<h1>CJYFFF的简单BLOG</h1>
+<h1 class="page-header">CJYFFF的简单BLOG</h1>
 
 {% for post in posts %}
 <!--下面语句是要重定向到detailblog这个url，并且把post.id传给这个url-->
-<h2><a href="{% url 'detailblog' post.id %}">{{ post.title }}</a></h2>
+<h2 class="page-header"><a href="{% url 'detailblog' post.id %}">{{ post.title }}</a></h2>
 <p>文章摘要：<p>
 <p>{{ post.body|truncatechars:200 }}
     <a href="{% url 'detailblog' post.id %}">{阅览全文}</a>
@@ -17,5 +24,7 @@
 <p>{{ post.timestamp }}</p>
 {% endfor %}
 
+<script src="{% static "js/jquery-1.11.0.js" %}"></script>
+<script src="{% static "js/bootstrap.js" %}"></script>
 </body>
 </html>

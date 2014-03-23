@@ -1,5 +1,5 @@
 #coding=utf-8
-from django.shortcuts import render_to_response
+from django.shortcuts import render
 from blog.models import BlogPost
 from django.http import Http404, HttpResponseRedirect
 from django.views.decorators.cache import cache_page
@@ -10,7 +10,8 @@ from django.views.decorators.vary import vary_on_headers
 def IndexPage(request):
     '''FrontPage function'''
     posts = BlogPost.objects.all()
-    return render_to_response('index.html', {'posts': posts})
+    return render(request, 'index.html', {'posts': posts},
+           )
 
 
 def IndexPage2(request):
@@ -43,11 +44,11 @@ def blog_show(request, id=''):
         codes_contents.append(codes.get(id=j).content)
         j += 1
 
-    return render_to_response('blog_show.html',
-                               {'post': post, 
-                                'photos_paths': photos_paths,
-                                'codes_contents': codes_contents
-                              }
+    return render(request, 'blog_show.html',
+                            {'post': post,
+                             'photos_paths': photos_paths,
+                             'codes_contents': codes_contents
+                             },
            )
 
 
@@ -63,6 +64,6 @@ def control_blog_show(request, id):
         rs["pre"] = pre_post
     except BlogPost.DoesNotExist:
         rs["pre"] = 0
-    return render_to_response('blog_control.html',
-                {'next_post': rs["next"], 'pre_post': rs["pre"]}
+    return render(request, 'blog_control.html',
+                   {'next_post': rs["next"], 'pre_post': rs["pre"]},
            )
