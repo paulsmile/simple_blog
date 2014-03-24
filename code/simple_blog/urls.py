@@ -16,9 +16,12 @@ urlpatterns = patterns('',
     url(r'^blog/(?P<id>\d+)/$', blog_show, name='detailblog'),#把这个url起别名为'detailblog'
     url(r'^control/$', control_blog_show, {'id': '1'}),
     url(r'^feeds/latest/$', LatestCommentFeed()),
-    url(r'^accounts/login/$', login),
-    url(r'^accounts/logout/$', logout),
+    url(r'^accounts/login/$', login, name='login'),
+    url(r'^accounts/logout/$', logout, name='logout'),
 )
-urlpatterns += patterns('',
-    url(r'^media/(?P<path>.*)$', 'django.views.static.serve',{'document_root': settings.MEDIA_ROOT}),
-)
+
+if settings.DEBUG:
+    urlpatterns += patterns('',
+        url(r'^media/(?P<path>.*)$', 'django.views.static.serve',
+             {'document_root': settings.MEDIA_ROOT}),
+    )
