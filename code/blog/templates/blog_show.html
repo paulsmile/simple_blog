@@ -17,14 +17,17 @@
             <p>{{ codes }}</p>
         {% endfor %}
     {% endif %}    
-    {% if photos_paths %}
-        {% for path in photos_paths %}
-            <p><small>附图：{{ path }}</small></p>
-            {% load staticfiles %}
-            <img src="{% static "photos/photos/22.jpg" %}" />
-            <img src="http://127.0.0.1:8000/media/photos/22.jpg"/>
+    <br></br>
+    <br></br>
+    {% if photos_urls %}
+        {% for photo_url in photos_urls %}
+            <p><small>附图：{{ photo_url }}</small></p>
+            <img src="http://127.0.0.1:8000/media/{{ photo_url }}"/>
         {% endfor %}
     {% endif %}
+    <br></br>
+    <br></br>
+    <br></br>
     {% get_comment_count for post as comment_count %}
     <p><small>这篇文章有 {{ comment_count }} 条评论：</small></p>
     {% get_comment_list for post as comment_list %}

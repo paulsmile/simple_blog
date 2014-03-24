@@ -31,9 +31,9 @@ def blog_show(request, id=''):
     i = 0
     photos = post.photo_set.all()
     photos_num = len(photos)
-    photos_paths = []
+    photos_urls = []
     while i < photos_num:
-        photos_paths.append(photos[i].image.path)
+        photos_urls.append(photos[i].image.url)
         i += 1
 
     j = 1
@@ -46,7 +46,7 @@ def blog_show(request, id=''):
 
     return render(request, 'blog_show.html',
                             {'post': post,
-                             'photos_paths': photos_paths,
+                             'photos_urls': photos_urls,
                              'codes_contents': codes_contents
                              },
            )
