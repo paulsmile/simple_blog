@@ -1,14 +1,14 @@
-<!DOCTYPE html>
-<html>
-<head>
-<link type="text/css" href="/home/cjyfff/simple_blog/code/static/css/code.css" rel="stylesheet">
-</head>
-<body>
+{% extends "base.html" %}
+
+{% block title %}CJYFFF的简单BLOG:{{ post.title }}{% endblock %}
+
+{% block body %}
+
 {% load comments %}
-<div class="content">
+<div class="container">
 　　 <h2>{{ post.title }}</h2>
-    <h2>{{ post.timestamp }}<h2>
-    <h2>{{ post.author }}</h2>
+    <h2><small>{{ post.author }}</small></h2>
+    <h3><small>{{ post.timestamp }}</small></h3>
     {% load text_markup %}
     <p>{{ post.body|markdown }} </p>
     
@@ -20,8 +20,9 @@
     {% if photos_paths %}
         {% for path in photos_paths %}
             <p><small>附图：{{ path }}</small></p>
-            <img src="/home/cjyfff/media/photos/photos/0f11a2686a1359966762_1.jpg" />
-            <img src="{{ path }}"/>
+            {% load staticfiles %}
+            <img src="{% static "photos/photos/22.jpg" %}" />
+            <img src="http://127.0.0.1:8000/media/photos/22.jpg"/>
         {% endfor %}
     {% endif %}
     {% get_comment_count for post as comment_count %}
@@ -32,5 +33,4 @@
     {% endfor %}
 </div>
 
-</body>
-</html>
+{% endblock %}

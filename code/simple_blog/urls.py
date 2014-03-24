@@ -4,6 +4,7 @@ from django.contrib import admin
 from blog.views import IndexPage, IndexPage2, blog_show, control_blog_show
 from django_comments.feeds import LatestCommentFeed
 from django.contrib.auth.views import login, logout
+from django.conf import settings
 
 admin.autodiscover()
 
@@ -17,4 +18,7 @@ urlpatterns = patterns('',
     url(r'^feeds/latest/$', LatestCommentFeed()),
     url(r'^accounts/login/$', login),
     url(r'^accounts/logout/$', logout),
+)
+urlpatterns += patterns('',
+    url(r'^media/(?P<path>.*)$', 'django.views.static.serve',{'document_root': settings.MEDIA_ROOT}),
 )

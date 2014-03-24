@@ -28,12 +28,12 @@ def blog_show(request, id=''):
     except BlogPost.DoesNotExist:
         raise Http404
 
-    i = 1
+    i = 0
     photos = post.photo_set.all()
     photos_num = len(photos)
     photos_paths = []
-    while i < photos_num+1:
-        photos_paths.append(photos.get(id=i).image.path)
+    while i < photos_num:
+        photos_paths.append(photos[i].image.path)
         i += 1
 
     j = 1

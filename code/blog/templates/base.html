@@ -1,18 +1,26 @@
 <!DOCTYPE html>
 <html>
 <head>
-<style type="text/css">
-body { color: #000000; background-color: #7E838E; padding: 0 5em; margin:0 }
-h1 { padding: 2em lem; background-color: #7E838E }
-h2 { color: #0000E3; border-top: 1px dotted #0033FF;margin-top: 2em }
-p { margin: lem 0; color: #0000E3 }
-</style>
-<title>CJYFFF的简单BLOG</title>
+<meta charset="utf-8">
+{% load staticfiles %}
+<link href="{% static "css/bootstrap.css" %}" rel="stylesheet">
+<meta name="viewport" content="width=device-wdith,initial-scale=1.0"></meta>
+<!-- [if lt IE 9]>
+    <script  src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+<![endif] -->
+<title>
+    {% block title %}{% endblock %}
+</title>
+{% block extra_head %}
+{% endblock %}
 </head>
 
 <body>
-<h1>CJYFFF的简单BLOG</h1>
-{% block content %}
+{% block body %}
 {% endblock %}
+
+<script src="{% static "js/jquery-1.11.0.js" %}"></script>
+<script src="{% static "js/bootstrap.js" %}"></script>
 </body>
 </html>
+
