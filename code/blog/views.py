@@ -7,6 +7,8 @@ from django.views.decorators.cache import cache_control
 from django.views.decorators.vary import vary_on_headers
 
 
+@cache_page(60 * 15)
+@cache_control(public=True, must_revalidate=True, max_age=1200)
 def IndexPage(request):
     '''FrontPage function'''
     posts = BlogPost.objects.all()
@@ -27,27 +29,30 @@ def blog_show(request, id=''):
         post = BlogPost.objects.get(id=id)
     except BlogPost.DoesNotExist:
         raise Http404
+    blog_post_list = {}
 
-    i = 0
     photos = post.photo_set.all()
     photos_num = len(photos)
-    photos_urls = []
-    while i < photos_num:
-        photos_urls.append(photos[i].image.url)
-        i += 1
+    for i in xrange(photos_num):
+        blog_post_list[photos[i].sequence] = photos[i]
 
-    j = 1
     codes = post.code_set.all()
     codes_num = len(codes)
-    codes_contents = []
-    while j < codes_num+1:
-        codes_contents.append(codes.get(id=j).content)
-        j += 1
+    for j in xrange(codes_num):
+        blog_post_list[codes[i].sequence] = codes[j]
+
+    paragraphs = post.paragraph_set.all()
+    paragraphs_num = len(paragraphs)
+    for k in xrange(paragraphs_num):
+        blog_post_list[paragraphs[k].sequence] = paragraphs[k]
+
+    context_list = []
+    for x in sorted(blog_post_list):
+        context_list.append(blog_post_list[x])
 
     return render(request, 'blog_show.html',
                             {'post': post,
-                             'photos_urls': photos_urls,
-                             'codes_contents': codes_contents
+                             'context_list': context_list,
                              },
            )
 

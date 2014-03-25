@@ -22,38 +22,44 @@
         </div>
     </div>
 </div>
-
+    {% load text_markup %}
 　　 <h2>{{ post.title }}</h2>
     <h2><small>{{ post.author }}</small></h2>
     <h3><small>{{ post.timestamp }}</small></h3>
-    {% load text_markup %}
-    <p>{{ post.body|markdown }} </p>
-    <br></br>
-    {% if codes_contents %}
-        {% for codes in codes_contents %}
-            <!--这里使用bootstrap的pre标签保持代码排版格式-->
-            <p><pre class="prettyprint linenums">{{ codes }}</pre></p>
-        {% endfor %}
-    {% endif %}
-    <br></br>
-    {% if photos_urls %}
-        {% for photo_url in photos_urls %}
-            <p><small>附图：{{ photo_url }}</small></p>
-            <img src="http://127.0.0.1:8000/media/{{ photo_url }}"/>
-        {% endfor %}
-    {% endif %}
-    <br></br>
-    <br></br>
+    
+    {# 下面的for循环的作用是接收包含图片、段落、代码等QuerySet对象的列表，根据discern字段 #}
+    {# 判断出类别，然后按照类别的不同而选择不同的方式表示出来 #}
+
+    {% for var in context_list %}
+        
+        {% ifequal var.discern 'paragraph' %}
+            <p>{{ var.paragraph|markdown }} </p>
+            <br></br>
+        {% endifequal %}
+        
+        {% ifequal var.discern 'code' %}
+            <p><pre class="prettyprint">{{ var.content }}</pre></p>
+            <br></br>
+        {% endifequal %}
+        
+        {% ifequal var.discern 'photo' %}
+            <img src="http://127.0.0.1:8000/media/{{ var.image.url }}"/>
+            <br></br>
+        {% endifequal %}
+    
+    {% endfor %}
+
     {% get_comment_count for post as comment_count %}
     <h4><small>这篇文章有 {{ comment_count }} 条评论：</small></h4>
     {% get_comment_list for post as comment_list %}
+    
     {% for comment in comment_list %}
         <div class="alert alert-block">
         <p><small>{{ comment }}</small></p>
         </div>
     {% endfor %}
+
 </div>
 {% endblock %}
-
 {% block extra_tail %}
 {% endblock %}
