@@ -71,6 +71,7 @@ def blog_show(request, id=''):
                  )
 
 
+
 '''
 def msg_post(request):
     if request.method == 'POST':

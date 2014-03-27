@@ -1,7 +1,7 @@
 #coding=utf-8
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
-from blog.views import index_page, index_page_2, blog_show, my_logout
+from blog.views import index_page, index_page_2, blog_show
 from django.contrib.auth.views import login, logout
 from django.conf import settings
 
@@ -14,7 +14,7 @@ urlpatterns = patterns('',
     url(r'^$', index_page_2),
     url(r'^blog/(?P<id>\d+)/$', blog_show, name='detailblog'),
     url(r'^accounts/login/$', login, name='login'),
-    url(r'^accounts/logout/$', my_logout, name='logout'),
+    url(r'^accounts/logout/$', logout, name='logout'),
 )
 
 if settings.DEBUG:
