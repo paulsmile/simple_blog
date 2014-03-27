@@ -1,8 +1,9 @@
 {% extends "comments/base.html" %}
 {% load i18n %}
 
-{% block title %}{% trans "Thanks for commenting" %}.{% endblock %}
+{% block title %}谢谢评论！{% endblock %}
 
 {% block content %}
-  <h1>{% trans "Thank you for your comment" %}.</h1>
+  <h1><small>谢谢您的评论！</small></h1>
+  <a href="javascript:history.back()">返回</a>
 {% endblock %}

@@ -22,57 +22,63 @@
         </div>
     </div>
 </div>
-    {% load text_markup %}
-　　 <h2>{{ post.title }}</h2>
-    <h2><small>{{ post.author }}</small></h2>
-    <h3><small>{{ post.timestamp }}</small></h3>
     
-    {# 下面的for循环的作用是接收包含图片、段落、代码等QuerySet对象的列表，根据discern字段 #}
-    {# 判断出类别，然后按照类别的不同而选择不同的方式表示出来 #}
+{% load text_markup %}
+<h2>{{ post.title }}</h2>
+<h2><small>{{ post.author }}</small></h2>
+<h3><small>{{ post.timestamp }}</small></h3>
+    
+{# 下面的for循环的作用是接收包含图片、段落、代码等QuerySet对象的列表，根据discern字段 #}
+{# 判断出类别，然后按照类别的不同而选择不同的方式表示出来 #}
 
-    {% for var in context_list %}
+{% for var in context_list %}
         
-        {% ifequal var.discern 'paragraph' %}
-            <p>{{ var.paragraph|markdown }} </p>
-            <br></br>
-        {% endifequal %}
+    {% ifequal var.discern 'paragraph' %}
+         <p>{{ var.paragraph|markdown }} </p>
+         <br></br>
+    {% endifequal %}
         
-        {% ifequal var.discern 'code' %}
-            <p><pre class="prettyprint">{{ var.content }}</pre></p>
-            <br></br>
-        {% endifequal %}
+    {% ifequal var.discern 'code' %}
+         <p><pre class="prettyprint">{{ var.content }}</pre></p>
+         <br></br>
+    {% endifequal %}
         
-        {% ifequal var.discern 'photo' %}
-            <img src="http://127.0.0.1:8000/media/{{ var.image.url }}"/>
-            <br></br>
-        {% endifequal %}
+    {% ifequal var.discern 'photo' %}
+         <img src="http://127.0.0.1:8000/media/{{ var.image.url }}"/>
+         <br></br>
+    {% endifequal %}
     
-    {% endfor %}
+{% endfor %}
+     
+{% get_comment_count for post as comment_count %}
+<h4 class="page-header"><small>这篇文章有 {{ comment_count }} 条评论：</small></h4>
 
-    {% get_comment_count for post as comment_count %}
-    <h4><small>这篇文章有 {{ comment_count }} 条评论：</small></h4>
-    {# django自带的comment模块会自动获取当前post的id，因为post已经是BlogPost的实例 #}
-    {% get_comment_list for post as comment_list %}
-    
-    {% for comment in comment_list %}
-        <div class="alert alert-block">
-        <p><small>{{ comment }}</small></p>
-        </div>
-    {% endfor %}
-    
-    {% get_comment_form for post as form %}
-<table>
-  <form action="{% comment_form_target %}" method="post">
-    {% csrf_token %}
-    {{ form }}
-    <tr>
-      <td colspan="2">
-        <input type="submit" name="submit" value="Post">
-        <input type="submit" name="preview" value="Preview">
-      </td>
-    </tr>
-  </form>
-</table>
+{# django自带的comment模块会自动获取当前post的id，因为post已经是BlogPost的实例 #}
+
+{% get_comment_list for post as comment_list %}
+{% for comment in comment_list %}
+     <div class="alert alert-block">
+     <p><small>{{ comment }}</small></p>
+     </div>
+{% endfor %}
+<div class="row">
+    <div class="span5">
+        <h4 class="page-header">发表我的评论:</h4>
+        {% get_comment_form for post as form %}
+        <table>
+        <form action="{% comment_form_target %}" method="post">
+        {% csrf_token %}
+        {{ form }}
+        <tr>
+            <td colspan="2">
+            <input type="submit" name="submit" value="Post">
+            <input type="submit" name="preview" value="Preview">
+            </td>
+        </tr>
+        </form>
+        </table>
+    </div>
+</div>
 
 </div>
 {% endblock %}
