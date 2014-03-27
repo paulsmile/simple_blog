@@ -22,7 +22,8 @@ def IndexPage2(request):
 
 
 @cache_page(60 * 15)
-@cache_control(public=True, must_revalidate=True, max_age=1200)#max_age是回应给浏览器的页面过期时间
+#下面的max_age是回应给浏览器的页面过期时间
+@cache_control(public=True, must_revalidate=True, max_age=1200)
 @vary_on_headers('User-Agent')
 def blog_show(request, id=''):
     try:
@@ -61,14 +62,30 @@ def control_blog_show(request, id):
     rs = {}
     try:
         next_post = BlogPost.objects.get(id=int(id)+1)
-        rs["next"] = next_post
+        rs['next'] = next_post
     except BlogPost.DoesNotExist:
-        rs["next"] = 0
+        rs['next'] = 0
     try:
         pre_post = BlogPost.objects.get(id=int(id)-1)
-        rs["pre"] = pre_post
+        rs['pre'] = pre_post
     except BlogPost.DoesNotExist:
-        rs["pre"] = 0
+        rs['pre'] = 0
     return render(request, 'blog_control.html',
-                   {'next_post': rs["next"], 'pre_post': rs["pre"]},
+                   {'next_post': rs['next'], 'pre_post': rs['pre']},
            )
+'''
+def msg_post(request):
+    if request.method == 'POST':
+        form = MsgPostForm(request.POST)
+        if form.is_valid():
+            newmessage = Msg(title=form.clean_data['title'],
+                             content=form.clean_data['content'],
+                             user=request.user,
+                             ip=request.META['REMOTE_ADDR'],
+                         )
+        newmessage.save()
+        return HttpResponseRedirect('/')
+    else:
+        form = MsgPostForm()
+    return render(request, 'msg_post_page.html', {'form': form})
+'''
