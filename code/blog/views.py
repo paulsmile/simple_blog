@@ -9,20 +9,20 @@ from django.views.decorators.vary import vary_on_headers
 
 @cache_page(60 * 15)
 @cache_control(public=True, must_revalidate=True, max_age=1200)
-def IndexPage(request):
+def index_page(request):
     '''FrontPage function'''
     posts = BlogPost.objects.all()
     return render(request, 'index.html', {'posts': posts},
            )
 
 
-def IndexPage2(request):
+def index_page_2(request):
     '''This function is for redirecting url from root to index/ '''
     return HttpResponseRedirect('/index/')
 
 
 @cache_page(60 * 15)
-#下面的max_age是回应给浏览器的页面过期时间
+#下面的max_age参数是定义回应给浏览器的页面过期时间
 @cache_control(public=True, must_revalidate=True, max_age=1200)
 @vary_on_headers('User-Agent')
 def blog_show(request, id=''):
@@ -40,7 +40,7 @@ def blog_show(request, id=''):
     codes = post.code_set.all()
     codes_num = len(codes)
     for j in xrange(codes_num):
-        blog_post_list[codes[i].sequence] = codes[j]
+        blog_post_list[codes[j].sequence] = codes[j]
 
     paragraphs = post.paragraph_set.all()
     paragraphs_num = len(paragraphs)
@@ -51,14 +51,6 @@ def blog_show(request, id=''):
     for x in sorted(blog_post_list):
         context_list.append(blog_post_list[x])
 
-    return render(request, 'blog_show.html',
-                            {'post': post,
-                             'context_list': context_list,
-                             },
-           )
-
-
-def control_blog_show(request, id):
     rs = {}
     try:
         next_post = BlogPost.objects.get(id=int(id)+1)
@@ -70,9 +62,15 @@ def control_blog_show(request, id):
         rs['pre'] = pre_post
     except BlogPost.DoesNotExist:
         rs['pre'] = 0
-    return render(request, 'blog_control.html',
-                   {'next_post': rs['next'], 'pre_post': rs['pre']},
-           )
+
+    return render(request, 'blog_show.html', {'post': post,
+                                              'context_list': context_list,
+                                              'next_post': rs['next'],
+                                              'pre_post': rs['pre'],
+                                             },
+                 )
+
+
 '''
 def msg_post(request):
     if request.method == 'POST':

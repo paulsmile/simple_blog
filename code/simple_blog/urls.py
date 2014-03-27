@@ -1,8 +1,7 @@
 #coding=utf-8
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
-from blog.views import IndexPage, IndexPage2, blog_show, control_blog_show
-from django_comments.feeds import LatestCommentFeed
+from blog.views import index_page, index_page_2, blog_show, my_logout
 from django.contrib.auth.views import login, logout
 from django.conf import settings
 
@@ -11,13 +10,11 @@ admin.autodiscover()
 urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^comments/', include('django_comments.urls')),
-    url(r'^index/$', IndexPage, name='indexpage'),
-    url(r'^$', IndexPage2),
-    url(r'^blog/(?P<id>\d+)/$', blog_show, name='detailblog'),#把这个url起别名为'detailblog'
-    url(r'^control/$', control_blog_show, {'id': '1'}),
-    url(r'^feeds/latest/$', LatestCommentFeed()),
+    url(r'^index/$', index_page, name='indexpage'),
+    url(r'^$', index_page_2),
+    url(r'^blog/(?P<id>\d+)/$', blog_show, name='detailblog'),
     url(r'^accounts/login/$', login, name='login'),
-    url(r'^accounts/logout/$', logout, name='logout'),
+    url(r'^accounts/logout/$', my_logout, name='logout'),
 )
 
 if settings.DEBUG:

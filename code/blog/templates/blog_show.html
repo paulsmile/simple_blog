@@ -49,7 +49,23 @@
     {% endifequal %}
     
 {% endfor %}
-     
+
+<p>下一篇文章：
+{% if next_post %}
+    <a href="{% url 'detailblog' next_post.id %}">{{ next_post.title }}</a>
+{% else %}
+    没有了
+{% endif %}
+</p>
+<p>上一篇文章：
+{% if pre_post %}
+    <a href="{% url 'detailblog' pre_post.id %}">{{ pre_post.title }}</a>
+{% else %}
+    没有了
+{% endif %}
+
+
+
 {% get_comment_count for post as comment_count %}
 <h4 class="page-header"><small>这篇文章有 {{ comment_count }} 条评论：</small></h4>
 
@@ -63,7 +79,7 @@
 {% endfor %}
 <div class="row">
     <div class="span5">
-        <h4 class="page-header">发表我的评论:</h4>
+        <h4 class="page-header">发表评论:</h4>
         {% get_comment_form for post as form %}
         <table>
         <form action="{% comment_form_target %}" method="post">

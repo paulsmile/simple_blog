@@ -7,7 +7,7 @@ class TagAdmin(admin.ModelAdmin):
     list_display = ('tag_name', )
 
 
-class BlogPostAdmin (admin.ModelAdmin):
+class BlogPostAdmin(admin.ModelAdmin):
     list_display = ('title', 'timestamp', )
     search_fields = ('title', )
 
