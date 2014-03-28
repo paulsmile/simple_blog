@@ -4,7 +4,7 @@ from blog.models import BlogPost
 from django.http import Http404, HttpResponseRedirect
 from django.views.decorators.cache import cache_page
 from django.views.decorators.cache import cache_control
-from django.views.decorators.vary import vary_on_headers
+from django.views.decorators.cache import never_cache
 
 
 @cache_page(60 * 15)
@@ -21,11 +21,12 @@ def index_page_2(request):
     return HttpResponseRedirect('/index/')
 
 
-@cache_page(60 * 15)
-#下面的max_age参数是定义回应给浏览器的页面过期时间
-@cache_control(public=True, must_revalidate=True, max_age=1200)
-@vary_on_headers('User-Agent')
+@never_cache
 def blog_show(request, id=''):
+    '''
+    为了实现评论后刷新页面能马上看到评论信息，加入了nerver_cache装饰器使博客的详细
+    显示页面不缓存
+    '''
     try:
         post = BlogPost.objects.get(id=id)
     except BlogPost.DoesNotExist:

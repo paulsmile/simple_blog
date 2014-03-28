@@ -16,6 +16,8 @@
             </div>
         </div>
     </div>
+{% load pagination_tags %}
+{% autopaginate posts 2 %}
 
 {% for post in posts %}
     {# 下面语句是要重定向到detailblog这个url，并且把post.id传给这个url #}
@@ -29,6 +31,8 @@
     <a href="{% url 'detailblog' post.id %}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{阅览全文}</a></p>
     <p>作者：{{ post.author }}&nbsp;&nbsp;发表时间：{{ post.timestamp }}</p>
 {% endfor %}
+
+{% paginate %}
 
 </div>
 {% endblock %}

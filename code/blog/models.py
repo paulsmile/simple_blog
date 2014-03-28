@@ -25,14 +25,14 @@ class BlogPost(models.Model):
 
 
 class Paragraph(models.Model):
-    discern = 'paragraph'
+    discern = "paragraph"
     sequence = models.PositiveSmallIntegerField()
     tag = models.ManyToManyField(BlogPost)
     paragraph = models.TextField()
 
 
 class Photo(models.Model):
-    discern = 'photo'
+    discern = "photo"
     sequence = models.PositiveSmallIntegerField()
     title = models.CharField(max_length=100)
     image = models.ImageField(upload_to='photos')
@@ -47,7 +47,7 @@ class Photo(models.Model):
 
 
 class Code(models.Model):
-    discern = 'code'
+    discern = "code"
     sequence = models.PositiveSmallIntegerField()
     title = models.CharField(max_length=150)
     content = models.TextField()
