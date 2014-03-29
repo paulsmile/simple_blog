@@ -23,6 +23,10 @@ class BlogPost(models.Model):
     class Meta(object):
         ordering = ['-timestamp']
 
+    def get_absolute_url(self):
+        from django.core.urlresolvers import reverse
+        return reverse('blog.views.blog_show', args=[str(self.id)])
+
 
 class Paragraph(models.Model):
     discern = "paragraph"
@@ -40,10 +44,6 @@ class Photo(models.Model):
 
     def __unicode__(self):
         return self.title
-
-    @models.permalink
-    def get_absolute_url(self):
-        return ('detailblog', None, {'object_id': self.id})
 
 
 class Code(models.Model):

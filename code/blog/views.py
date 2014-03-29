@@ -5,27 +5,34 @@ from django.http import Http404, HttpResponseRedirect
 from django.views.decorators.cache import cache_page
 from django.views.decorators.cache import cache_control
 from django.views.decorators.cache import never_cache
+from django.contrib.syndication.views import Feed
 
 
 @cache_page(60 * 15)
 @cache_control(public=True, must_revalidate=True, max_age=1200)
 def index_page(request):
-    '''FrontPage function'''
+    '''
+    这个view的功能是显示主页
+    cache_page装饰器定义了这个view所对应的页面的缓存时间。
+    cache_control装饰器告诉了客户端浏览器
+    '''
     posts = BlogPost.objects.all()
     return render(request, 'index.html', {'posts': posts},
            )
 
 
 def index_page_2(request):
-    '''This function is for redirecting url from root to index/ '''
+    '''
+    这个view的作用是把指向站点根目录的请求重定向到/index/
+    '''
     return HttpResponseRedirect('/index/')
 
 
 @never_cache
 def blog_show(request, id=''):
     '''
-    为了实现评论后刷新页面能马上看到评论信息，加入了nerver_cache装饰器使博客的详细
-    显示页面不缓存
+    为了实现评论后刷新页面能马上看到评论信息，加入了nerver_cache装饰器使得这个
+    view所对应的页面不被缓存。
     '''
     try:
         post = BlogPost.objects.get(id=id)
@@ -71,6 +78,20 @@ def blog_show(request, id=''):
                                              },
                  )
 
+
+class RSSFeed(Feed):
+    '''
+    实现RSS功能，按时间排序显示最新的5篇文章。
+    '''
+    title = "CJYFFF的简单博客"
+    description = "反映CJYFFF博客的最新文章"
+    link = "/blog/"
+
+    def items(self):
+        return BlogPost.objects.order_by('-timestamp')[:5]
+
+    def item_description(self, item):
+        return item.title
 
 
 '''
