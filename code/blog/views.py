@@ -12,9 +12,10 @@ from django.contrib.syndication.views import Feed
 @cache_control(public=True, must_revalidate=True, max_age=1200)
 def index_page(request):
     '''
-    这个view的功能是显示主页
+    这个view的功能是显示主页。
     cache_page装饰器定义了这个view所对应的页面的缓存时间。
-    cache_control装饰器告诉了客户端浏览器
+    cache_control装饰器告诉了上游缓存可以以共缓存的形式缓存内容，并且告诉客户端浏览器，这个
+    页面每次访问都要验证缓存，并且缓存有效时间为1200秒。
     '''
     posts = BlogPost.objects.all()
     return render(request, 'index.html', {'posts': posts},
@@ -31,6 +32,9 @@ def index_page_2(request):
 @never_cache
 def blog_show(request, id=''):
     '''
+    这个view的作用是显示博客的正文内容。
+    这个view会根据段落、图片、代码对象的sequence属性的值进行排序，
+    生成一个最终显示列表返回给模版进行渲染。
     为了实现评论后刷新页面能马上看到评论信息，加入了nerver_cache装饰器使得这个
     view所对应的页面不被缓存。
     '''

@@ -1,4 +1,5 @@
 #coding=utf-8
+
 from django.db import models
 
 
@@ -27,6 +28,8 @@ class BlogPost(models.Model):
         from django.core.urlresolvers import reverse
         return reverse('blog.views.blog_show', args=[str(self.id)])
 
+#下面的Paragraph、Photo、Code类各有一个sequence属性，用来表示这些models在
+#博客正文中所出现的顺序。
 
 class Paragraph(models.Model):
     discern = "paragraph"
