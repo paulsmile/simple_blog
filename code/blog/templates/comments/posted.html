@@ -5,5 +5,14 @@
 
 {% block content %}
   <h1><small>谢谢您的评论！</small></h1>
-  <a href="javascript:history.back()">返回</a>
+  <button onclick="myFunction()">fanhui2</button>
+  
+  <script>
+  function myFunction()
+  {
+     window.history.back();
+     self.opener.location.reload();
+  };
+  
+  </script>
 {% endblock %}

@@ -2,6 +2,12 @@
 
 {% block title %}CJYFFF的简单BLOG{% endblock %}
 
+{% block extra_head %}
+<style>
+.text-indent {text-indent: 1cm}
+</style>
+{% endblock %}
+
 {% block body %}
 <div class="container">
     <h1 class="page-header">CJYFFF的简单BLOG<small>&nbsp;&nbsp;powered by Django</small></h1>
@@ -25,15 +31,16 @@
 
 {% for post in posts %}
     {# 下面语句是要重定向到detail_blog这个url，并且把post.id传给这个url #}
-    <h2 class="page-header"><a href="{% url 'detail_blog' post.id %}"><small>{{ post.title }}</small></a></h2>
-    
+    <p class="page-header"></p>
+    <h2 ><a href="{% url 'detail_blog' post.id %}"><small>{{ post.title }}</small></a></h2>
+    <p>作者：{{ post.author }}&nbsp;&nbsp;发表时间：{{ post.timestamp|date:"Y年m月j日 f" }}</p>
+
     {% if post.summary %}
-        <p>文章简介：</p>
-        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ post.summary|truncatechars:200 }}</p>
+        <p class="text-indent">文章简介：&nbsp;{{ post.summary|truncatechars:200 }}</p>
     {% endif %}
     
-    <a href="{% url 'detail_blog' post.id %}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{阅览全文}</a></p>
-    <p>作者：{{ post.author }}&nbsp;&nbsp;发表时间：{{ post.timestamp }}</p>
+    <p class="text-indent"><a  href="{% url 'detail_blog' post.id %}">{阅览全文}</a></p>
+    
 {% endfor %}
 
 {% paginate %}

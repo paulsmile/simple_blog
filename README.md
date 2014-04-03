@@ -3,7 +3,8 @@
     
 ###依赖：    
 1、django-contrib-comments    
-2、django-pagination    
+2、django-pagination   
+3、pytz     
 
     
 ###目前已经实现的功能：    

@@ -38,6 +38,11 @@ def blog_show(request, id=''):
     为了实现评论后刷新页面能马上看到评论信息，加入了nerver_cache装饰器使得这个
     view所对应的页面不被缓存。
     '''
+
+    def post_objects(objects, output_dict):
+        for i in xrange(len(objects)):
+            output_dict[int('%d'%objects[i].sequence)] = objects[i]
+
     try:
         post = BlogPost.objects.get(id=id)
     except BlogPost.DoesNotExist:
@@ -45,19 +50,12 @@ def blog_show(request, id=''):
     blog_post_list = {}
 
     photos = post.photo_set.all()
-    photos_num = len(photos)
-    for i in xrange(photos_num):
-        blog_post_list[photos[i].sequence] = photos[i]
-
     codes = post.code_set.all()
-    codes_num = len(codes)
-    for j in xrange(codes_num):
-        blog_post_list[codes[j].sequence] = codes[j]
-
     paragraphs = post.paragraph_set.all()
-    paragraphs_num = len(paragraphs)
-    for k in xrange(paragraphs_num):
-        blog_post_list[paragraphs[k].sequence] = paragraphs[k]
+
+    post_objects(photos, blog_post_list)
+    post_objects(codes, blog_post_list)
+    post_objects(paragraphs, blog_post_list)
 
     context_list = []
     for x in sorted(blog_post_list):
