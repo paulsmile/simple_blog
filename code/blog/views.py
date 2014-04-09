@@ -18,8 +18,7 @@ def index_page(request):
     页面每次访问都要验证缓存，并且缓存有效时间为1200秒。
     '''
     posts = BlogPost.objects.all()
-    return render(request, 'index.html', {'posts': posts},
-           )
+    return render(request, 'index.html', {'posts': posts}, )
 
 
 def index_page_2(request):
@@ -94,21 +93,3 @@ class RSSFeed(Feed):
 
     def item_description(self, item):
         return item.title
-
-
-'''
-def msg_post(request):
-    if request.method == 'POST':
-        form = MsgPostForm(request.POST)
-        if form.is_valid():
-            newmessage = Msg(title=form.clean_data['title'],
-                             content=form.clean_data['content'],
-                             user=request.user,
-                             ip=request.META['REMOTE_ADDR'],
-                         )
-        newmessage.save()
-        return HttpResponseRedirect('/')
-    else:
-        form = MsgPostForm()
-    return render(request, 'msg_post_page.html', {'form': form})
-'''

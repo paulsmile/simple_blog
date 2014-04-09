@@ -27,7 +27,7 @@
         </div>
     </div>
 {% load pagination_tags %}
-{% autopaginate posts 2 %}
+{% autopaginate posts 5 %}
 
 {% for post in posts %}
     {# 下面语句是要重定向到detail_blog这个url，并且把post.id传给这个url #}
