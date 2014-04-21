@@ -1,10 +1,12 @@
 一个使用Django和Bootstrap搭建起来的博客    
-功能仍然相当不完善，待完善的时候我再修改这个README的内容吧:)    
+基本功能已经完善，后续有时间我将继续完善这个程序    
     
 ###依赖：    
-1、django-contrib-comments    
-2、django-pagination   
-3、pytz     
+1、django 1.6    
+2、python 2.7
+3、django-contrib-comments    
+4、django-pagination   
+5、pytz     
 
     
 ###目前已经实现的功能：    

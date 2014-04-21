@@ -24,22 +24,22 @@ window.name = "";
 {% load comments %}
 <div class="container">
 <div class="navbar">
-    <div class="navbar-inner">
-        <div class="container">
-        <ul class="nav">
-            <li><a href="{% url 'index_page' %}">首页</a><li>
-        </ul>
-        <ul class="nav pull-right">
-            <li><a href="{% url 'RSS_url' %}">
-                <img src="http://127.0.0.1:8000/media/rss.jpg" width="20" height="20"/>
-                RSS</a>
-            </li>
-            <li><a href="{% url 'login' %}">登录</a></li>
-            <li class="divider-vertical"></li>
-            <li><a href="{% url 'logout' %}">注销</a></li>
-        </ul>
-        </div>
+  <div class="navbar-inner">
+    <div class="container">
+      <ul class="nav">
+      <li><a href="{% url 'index_page' %}">首页</a><li>
+      </ul>
+      <ul class="nav pull-right">
+        <li><a href="{% url 'RSS_url' %}">
+          <img src="http://127.0.0.1:8000/media/rss.jpg" width="20" height="20"/>
+          RSS</a>
+        </li>
+        <li><a href="{% url 'login' %}">登录</a></li>
+        <li class="divider-vertical"></li>
+        <li><a href="{% url 'logout' %}">注销</a></li>
+      </ul>
     </div>
+  </div>
 </div>
     
 {% load text_markup %}
@@ -51,32 +51,32 @@ window.name = "";
 {# 判断出类别，然后按照类别的不同而选择不同的方式表示出来 #}
 
 {% for var in context_list %}        
-    {% ifequal var.discern 'paragraph' %}
-         <p>{{ var.paragraph|markdown }} </p>
-    {% endifequal %}
+  {% ifequal var.discern 'paragraph' %}
+    <p>{{ var.paragraph|markdown }} </p>
+  {% endifequal %}
         
-    {% ifequal var.discern 'code' %}
-         <p><pre class="prettyprint">{{ var.content }}</pre></p>
-    {% endifequal %}
+  {% ifequal var.discern 'code' %}
+    <p><pre class="prettyprint">{{ var.content }}</pre></p>
+  {% endifequal %}
         
-    {% ifequal var.discern 'photo' %}
-         <img src="http://127.0.0.1:8000/media/{{ var.image.url }}"/>
-    {% endifequal %}
+  {% ifequal var.discern 'photo' %}
+    <img src="http://127.0.0.1:8000/media/{{ var.image.url }}"/>
+  {% endifequal %}
 {% endfor %}
 
 <br></br>
 <p>下一篇文章：
 {% if next_post %}
-    <a href="{% url 'detail_blog' next_post.id %}">{{ next_post.title }}</a>
+  <a href="{% url 'detail_blog' next_post.id %}">{{ next_post.title }}</a>
 {% else %}
-    没有了
+  没有了
 {% endif %}
 </p>
 <p>上一篇文章：
 {% if pre_post %}
-    <a href="{% url 'detail_blog' pre_post.id %}">{{ pre_post.title }}</a>
+  <a href="{% url 'detail_blog' pre_post.id %}">{{ pre_post.title }}</a>
 {% else %}
-    没有了
+  没有了
 {% endif %}
 
 
@@ -88,29 +88,29 @@ window.name = "";
 
 {% get_comment_list for post as comment_list %}
 {% for comment in comment_list %}
-     <div class="alert alert-block">
-     <p><small>{{ comment.name }}&nbsp;&nbsp;发表于&nbsp;&nbsp;{{ comment.submit_date|date:"Y年m月j日 f" }}&nbsp;:</small></p>
-     <p>{{ comment.comment }}</p>     
-     </div>
+  <div class="alert alert-block">
+  <p><small>{{ comment.name }}&nbsp;&nbsp;发表于&nbsp;&nbsp;{{ comment.submit_date|date:"Y年m月j日 f" }}&nbsp;:</small></p>
+  <p>{{ comment.comment }}</p>     
+  </div>
 {% endfor %}
 
 <div class="row">
-    <div class="span5">
-        <h4 class="page-header">发表评论:</h4>
-        {% get_comment_form for post as form %}
-        <table>
-        <form action="{% comment_form_target %}" method="post">
-        {% csrf_token %}
-        {{ form }}
-        <tr>
-            <td colspan="2">
-            <input type="submit" name="submit" value="Post">
-            <input type="submit" name="preview" value="Preview">
-            </td>
-        </tr>
-        </form>
-        </table>
-    </div>
+  <div class="span5">
+    <h4 class="page-header">发表评论:</h4>
+    {% get_comment_form for post as form %}
+    <table>
+    <form action="{% comment_form_target %}" method="post">
+    {% csrf_token %}
+    {{ form }}
+    <tr>
+      <td colspan="2">
+      <input type="submit" name="submit" value="Post">
+      <input type="submit" name="preview" value="Preview">
+      </td>
+    </tr>
+    </form>
+    </table>
+  </div>
 </div>
 
 </div>
