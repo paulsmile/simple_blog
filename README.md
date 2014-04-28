@@ -3,10 +3,10 @@
     
 ###依赖：    
 1、django 1.6    
-2、python 2.7
+2、python 2.7   
 3、django-contrib-comments    
 4、django-pagination   
-5、pytz     
+5、markdown     
 
     
 ###目前已经实现的功能：    
