@@ -6,7 +6,10 @@
 {% endblock %}
 
 {% block body %}
+
 {% load comments %}
+{% load staticfiles %}
+
 <div class="container">
 <div class="navbar">
   <div class="navbar-inner">
@@ -81,10 +84,13 @@
 
 <div class="row">
   <div class="span5">
-    <h4 class="page-header">发表评论:</h4>
+    <div class="page-header">    
+      <h4>发表评论:</h4>
+      <p>可用Ctrl+Enter快速提交</p>
+    </div>
     {% get_comment_form for post as form %}
     <table>
-    <form action="{% comment_form_target %}" method="post">
+    <form id="comment_from" action="{% comment_form_target %}" method="post">
     {% csrf_token %}
     {{ form }}
     <tr>
@@ -100,5 +106,7 @@
 
 </div>
 {% endblock %}
+
 {% block extra_tail %}
+<script src="{% static "js/my_blog.js" %}"></script>
 {% endblock %}
