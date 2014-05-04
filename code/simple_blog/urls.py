@@ -17,6 +17,7 @@ urlpatterns = patterns('',
     url(r'^accounts/login/$', login, name='login'),
     url(r'^accounts/logout/$', logout, name='logout'),
     url(r'^latest/feed/$', RSSFeed(), name='RSS_url'),
+    url(r'^captcha/', include('captcha.urls')),
 )
 
 if settings.DEBUG:

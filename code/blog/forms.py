@@ -2,6 +2,7 @@
 #coding=utf-8
 from django import forms
 from django_comments.forms import CommentForm
+from captcha.fields import CaptchaField
 
 
 class MyComment(CommentForm):
@@ -12,6 +13,7 @@ class MyComment(CommentForm):
                                     max_length=10000)
     honeypot = forms.CharField(required=False,
                     label='这是防止恶意自动提交评论用的，请不要在此栏填写内容')
+    captcha = CaptchaField(label='验证码')
 
     def get_comment_create_data(self):
         data = super(MyComment, self).get_comment_create_data()

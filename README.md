@@ -7,7 +7,8 @@
 3、django-contrib-comments    
 4、django-pagination   
 5、markdown     
-
+6、django-simple-captcha   
+7、PIL   
     
 ###目前已经实现的功能：    
 1、博客正文支持markdown语法，支持代码高亮    
