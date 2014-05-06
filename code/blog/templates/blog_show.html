@@ -92,7 +92,16 @@
     <table>
     <form id="comment_from" action="{% comment_form_target %}" method="post">
     {% csrf_token %}
-    {{ form }}
+    {{form.object_pk}}
+    {{form.content_type}}
+    {{form.timestamp}}
+    {{form.security_hash}}
+    <p><label for="id_name">您的姓名：</label><input name="name" id="id_name"></p>
+    <p><label for="id_email">您的邮箱：</label><input name="email" id="id_email"></p>
+    <p><label for="id_comment">您的评论：</label></p>
+    <p><textarea id="id_comment" rows="10" cols="30" name="comment"></textarea></p>
+    <p><label for="id_captcha">验证码（必填）：</label> {{form.captcha}}</p>
+
     <tr>
       <td colspan="2">
       <input type="submit" name="submit" value="Post">

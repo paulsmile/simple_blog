@@ -8,7 +8,7 @@ from captcha.fields import CaptchaField
 class MyComment(CommentForm):
     name = forms.CharField(label='您的名字', max_length=50)
     email = forms.EmailField(label='您的Email地址')
-    url = forms.URLField(label='您的个人主页', required=False)
+    url = forms.URLField(label='您的个人主页(可不填)', required=False)
     comment = forms.CharField(label='您的评论', widget=forms.Textarea,
                                     max_length=10000)
     honeypot = forms.CharField(required=False,
