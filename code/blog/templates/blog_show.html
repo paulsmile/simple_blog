@@ -22,9 +22,6 @@
           <img src="http://127.0.0.1:8000/media/rss.jpg" width="20" height="20"/>
           RSS</a>
         </li>
-        <li><a href="{% url 'login' %}">登录</a></li>
-        <li class="divider-vertical"></li>
-        <li><a href="{% url 'logout' %}">注销</a></li>
       </ul>
     </div>
   </div>
@@ -84,7 +81,7 @@
 
 <div class="row">
   <div class="span5">
-    <div class="page-header">    
+    <div class="page-header">
       <h4>发表评论:</h4>
       <p>可用Ctrl+Enter快速提交</p>
     </div>
@@ -96,11 +93,11 @@
     {{form.content_type}}
     {{form.timestamp}}
     {{form.security_hash}}
-    <p><label for="id_name">您的姓名：</label><input name="name" id="id_name"></p>
-    <p><label for="id_email">您的邮箱：</label><input name="email" id="id_email"></p>
-    <p><label for="id_comment">您的评论：</label></p>
-    <p><textarea id="id_comment" rows="10" cols="30" name="comment"></textarea></p>
-    <p><label for="id_captcha">验证码（必填）：</label> {{form.captcha}}</p>
+
+    <input type="text" name="name" placeholder="请输入您的昵称" id="id_name">
+    <input type="text" name="email" placeholder="请输入您的邮箱（不会被公开）" id="id_email">
+    <textarea id="id_comment" placeholder="请输入您的评论" rows="10" cols="30" name="comment"></textarea>
+    <p><label for="id_captcha">验证码：</label> {{form.captcha}}</p>
 
     <tr>
       <td colspan="2">
@@ -112,7 +109,7 @@
     </table>
   </div>
 </div>
-
+<br>
 </div>
 {% endblock %}
 

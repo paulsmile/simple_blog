@@ -1,17 +1,14 @@
 {% extends "comments/base.html" %}
 {% load i18n %}
-
+{% load staticfiles %}
 {% block title %}谢谢评论！{% endblock %}
 
 {% block content %}
+<div class="container">
   <h1><small>谢谢您的评论！</small></h1>
-  <button onclick="myFunction()">返回</button>
-  
-  <script>
-  function myFunction()
-  {
-     window.history.back();
-     //self.opener.location.reload();
-  };
-  </script>
+  <button type="button" id="back_to_post">返回</button>
+</div>
+{% endblock %}
+{% block extra_tail %}
+<script src="{% static "js/my_blog.js" %}"></script>
 {% endblock %}

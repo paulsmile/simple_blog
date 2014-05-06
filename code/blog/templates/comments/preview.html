@@ -4,6 +4,7 @@
 {% block title %}预览您的评论{% endblock %}
 
 {% block content %}
+<div class="container">
   {% load comments %}
   <form action="{% comment_form_target %}" method="post">{% csrf_token %}
     {% if next %}<div><input type="hidden" name="next" value="{{ next }}" /></div>{% endif %}
@@ -33,4 +34,5 @@
     <input type="submit" name="preview" class="submit-preview" value="{% trans "Preview" %}" />
     </p>
   </form>
+</div>
 {% endblock %}
