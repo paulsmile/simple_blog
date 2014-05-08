@@ -1,14 +1,12 @@
 {% extends "base.html" %}
-
 {% block title %}CJYFFF的简单BLOG:{{ post.title }}{% endblock %}
-
+{% load staticfiles %}
 {% block extra_head %}
+<link href="{% static "css/my_blog.css" %}" rel="stylesheet">
 {% endblock %}
 
 {% block body %}
-
 {% load comments %}
-{% load staticfiles %}
 
 <div class="container">
 <div class="navbar">
@@ -86,23 +84,23 @@
     {% get_comment_form for post as form %}
     <table>
     <form id="comment_from" action="{% comment_form_target %}" method="post">
-    {% csrf_token %}
-    {{form.object_pk}}
-    {{form.content_type}}
-    {{form.timestamp}}
-    {{form.security_hash}}
+      {% csrf_token %}
+      {{form.object_pk}}
+      {{form.content_type}}
+      {{form.timestamp}}
+      {{form.security_hash}}
 
-    <input type="text" name="name" placeholder="请输入您的昵称" id="id_name">
-    <input type="text" name="email" placeholder="请输入您的邮箱（不会被公开）" id="id_email">
-    <textarea id="id_comment" placeholder="请输入您的评论" rows="10" cols="30" name="comment"></textarea>
-    <p><label for="id_captcha">验证码：</label> {{form.captcha}}</p>
-
-    <tr>
-      <td colspan="2">
-      <input type="submit" name="submit" value="Post">
-      <input type="submit" name="preview" value="Preview">
-      </td>
-    </tr>
+      <input type="text" name="name" placeholder="请输入您的昵称" id="id_name">
+      <input type="text" name="email" placeholder="请输入您的邮箱（不会被公开）" id="id_email">
+      <textarea id="id_comment" placeholder="请输入您的评论" rows="10" cols="30" name="comment"></textarea>
+      <input id="user_input_code" type="text" name="code" placeholder="请输入右侧的验证码"/>
+      <input type="text" readonly="readonly" id="checkCode" class="code" style="width: 60px;" />
+      <p id="valid_faild"></p>
+      <tr>
+        <td colspan="2">
+        <input id="submit_comment" type="submit" disabled="true" name="submit" value="提交评论">
+        </td>
+      </tr>
     </form>
     </table>
   </div>
