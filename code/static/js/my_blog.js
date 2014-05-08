@@ -68,10 +68,10 @@ function control_submit() {
           if (verify_code()) {
 	           $("#submit_comment").attr("disabled", false);
 	       } else {
-	           $("#valid_faild").text("验证码错误");
+	           $("#valid_failed").text("验证码错误");
 	       }
     	} else {
-    		 $("#valid_faild").text("");
+    		 $("#valid_failed").text("");
     	}
     });
 }
