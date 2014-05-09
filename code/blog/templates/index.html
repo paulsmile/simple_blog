@@ -1,46 +1,23 @@
 {% extends "base.html" %}
-
 {% block title %}CJYFFF的简单BLOG{% endblock %}
-
-{% block extra_head %}
-<style>
-.text-indent {text-indent: 1cm}
-</style>
-{% endblock %}
 
 {% block body %}
 <div class="container">
-  <h1 class="page-header">CJYFFF的简单BLOG<small>&nbsp;&nbsp;powered by Django</small></h1>
-  <div class="navbar">
-    <div class="navbar-inner">
-      <div class="container">
-        <ul class="nav pull-right">
-          <li><a href="{% url 'RSS_url' %}">
-            <img src="http://127.0.0.1:8000/media/rss.jpg" width="20" height="20"/>
-            RSS</a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div>
-{% load pagination_tags %}
-{% autopaginate posts 5 %}
-
-{% for post in posts %}
-  {# 下面语句是要重定向到detail_blog这个url，并且把post.id传给这个url #}
-  <p class="page-header"></p>
-  <h2 ><a href="{% url 'detail_blog' post.id %}"><small>{{ post.title }}</small></a></h2>
-  <p>作者：{{ post.author }}&nbsp;&nbsp;发表时间：{{ post.timestamp|date:"Y年m月j日 f" }}</p>
-
-  {% if post.summary %}
-    <p class="text-indent">文章简介：&nbsp;{{ post.summary|truncatechars:200 }}</p>
-  {% endif %}
-    
-  <p class="text-indent"><a  href="{% url 'detail_blog' post.id %}">{阅览全文}</a></p>
-    
-{% endfor %}
-
-{% paginate %}
-
+	{% load pagination_tags %}
+	{% autopaginate posts 5 %}
+	
+	{% for post in posts %}
+	  {# 下面语句是要重定向到detail_blog这个url，并且把post.id传给这个url #}
+	  <h2 ><a href="{% url 'detail_blog' post.id %}"><small>{{ post.title }}</small></a></h2>
+	  <p>作者：{{ post.author }}&nbsp;&nbsp;发表时间：{{ post.timestamp|date:"Y年m月j日 f" }}</p>
+	
+	  {% if post.summary %}
+	    <p class="text-indent">文章简介：&nbsp;{{ post.summary|truncatechars:200 }}</p>
+	  {% endif %}
+	
+	  <p class="text-indent"><a  href="{% url 'detail_blog' post.id %}">{阅览全文}</a></p>
+	  <p class="page-header"></p>
+	{% endfor %}
+	{% paginate %}
 </div>
 {% endblock %}

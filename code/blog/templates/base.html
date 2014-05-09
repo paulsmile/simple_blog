@@ -5,6 +5,7 @@
 {% load staticfiles %}
 <link href="{% static "css/prettify.css" %}" rel="stylesheet">
 <link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet">
+<link href="{% static "css/my_blog.css" %}" rel="stylesheet">
 <meta name="viewport" content="width=device-wdith,initial-scale=1.0"></meta>
 <!-- [if lt IE 9]>
   <script  src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -18,6 +19,30 @@
 
 </head>
 <body onload="prettyPrint()">
+<div class="container">
+	<div class="navbar">
+	  <div class="navbar-inner">
+	    <div class="container">
+	      <ul class="nav">
+	        <li><h4>CJYFFF<h4></li>
+	        <li class="divider-vertical"></li>
+	        <li><a href="{% url 'index_page' %}">首页</a></li>
+	      </ul>
+	      <ul class="nav pull-right">
+	        <li><a href="{% url 'RSS_url' %}">
+	          <img src="http://127.0.0.1:8000/media/rss.jpg" width="20" height="20"/>
+	          RSS</a>
+	        </li>
+	        <li class="divider-vertical"></li>
+	        <li><a href="https://github.com/cjyfff">我的开源项目</a></li>
+	      </ul>
+	    </div>
+	  </div>
+	</div>
+	<h2>&nbsp;CJYFFF的简单BLOG</h2>
+  <h2><small>&nbsp;&nbsp;——&nbsp;powered by Django</small></h2>
+  <p class="page-header"></p>
+</div>
 
 {% block body %}
 {% endblock %}
