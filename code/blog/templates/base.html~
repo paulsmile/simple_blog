@@ -24,7 +24,7 @@
 	  <div class="navbar-inner">
 	    <div class="container">
 	      <ul class="nav">
-	        <li><h4 class="main_title">CJYFFF<h4></li>
+	        <li><h4>CJYFFF<h4></li>
 	        <li class="divider-vertical"></li>
 	        <li><a href="{% url 'index_page' %}">首页</a></li>
 	      </ul>

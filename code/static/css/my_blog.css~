@@ -13,8 +13,5 @@
 
 #sub_title{
   background-image: url('http://127.0.0.1:8000/media/titel_bg.png');
-}
-
-.main_title{
   color: #3a87ad;
 }

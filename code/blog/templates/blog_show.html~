@@ -60,8 +60,9 @@
 			  </div>
 			{% endfor %}
 
+			<div class="text-indent">
 			<div class="row-fluid">
-			  <div class="span5">
+
 			    <div class="page-header">
 			      <h4>发表评论:</h4>
 			      <p>可用Ctrl+Enter快速提交</p>
@@ -88,7 +89,8 @@
 				      </tr>
 				    </form>
 			    </table>
-			  </div>
+
+			</div>
 			</div>
 			<br>
 	  </div>
