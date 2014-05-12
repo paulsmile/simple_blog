@@ -6,7 +6,7 @@
   <div id="content" class="row-fluid">
     <div class="span9 main">
 			
-			{% for post in posts %}
+			{% for post in posts_of_page %}
 			  {# 下面语句是要重定向到detail_blog这个url，并且把post.id传给这个url #}
 			  <h2 ><a href="{% url 'detail_blog' post.id %}"><small>{{ post.title }}</small></a></h2>
 			  <p>作者：{{ post.author }}&nbsp;&nbsp;发表时间：{{ post.timestamp|date:"Y年m月j日 f" }}</p>
