@@ -56,11 +56,9 @@
 {% endblock %}
 <div class="container">
   <p class="page-header"></p>
-  <div align="center">
-    <p><b>关于: </b></p>  
-    <p>本博客后端采用Django框架，前端采用Bootstrap</p>
-    <p>感谢python，让我从新找到编程的乐趣！</p>
-  </div>
+  <p><b>关于: </b></p>  
+  <p>本博客后端采用Django框架，前端采用Bootstrap</p>
+  <p>感谢python，让我从新找到编程的乐趣！</p>
 </div>
 </body>
 </html>
