@@ -11,9 +11,9 @@
 	  <form action="{% comment_form_target %}" method="post">{% csrf_token %}
 	    {% if next %}<div><input type="hidden" name="next" value="{{ next }}" /></div>{% endif %}
 	    {% if form.errors %}
-	    <h1><small>请按照提示修改您提交的内容：</small></h1>
+	      <h1><small>请按照提示修改您提交的内容：</small></h1>
 	    {% else %}
-	    <h1><small>预览您的评论：</small></h1>
+	      <h1><small>预览您的评论：</small></h1>
 	      <blockquote>{{ comment|linebreaks }}</blockquote>
 	      <p>
 	      和 <input type="submit" name="submit" class="submit-post" value="提交评论" id="submit" /> 或者修改评论:
