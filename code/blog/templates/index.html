@@ -5,8 +5,6 @@
 <div class="container">
   <div id="content" class="row-fluid">
     <div class="span9 main">
-			{% load pagination_tags %}
-			{% autopaginate posts 5 %}
 			
 			{% for post in posts %}
 			  {# 下面语句是要重定向到detail_blog这个url，并且把post.id传给这个url #}
@@ -20,7 +18,21 @@
 			  <p class="text-indent"><a  href="{% url 'detail_blog' post.id %}">{阅览全文}</a></p>
 			  <p class="page-header"></p>
 			{% endfor %}
-			{% paginate %}
+			
+			<div class="posts_of_page">
+        <span class="step-link">
+          {% if posts_of_page.has_previous %}
+            <a href="?page={{ posts_of_page.previous_page_number }}">上一页</a>
+          {% endif %}
+          <span class="current">
+            第{{ posts_of_page.number }}页
+            共计{{ posts_of_page.paginator.num_pages }}页
+          </span>
+          {% if posts_of_page.has_next %}
+            <a href="?page={{ posts_of_page.next_page_number }}">下一页</a>
+          {% endif %}
+        </span>
+      </div>
 		</div>
 		<div class="span3 sidebar">
       <div class="alert alert-info">      

@@ -11,14 +11,24 @@ from django.contrib.syndication.views import Feed
 @cache_page(60 * 15)
 @cache_control(public=True, must_revalidate=True, max_age=1200)
 def index_page(request):
-    '''这个view的功能是显示主页。
+    '''这个view的功能是显示主页，并实现分页功能。
     cache_page装饰器定义了这个view所对应的页面的缓存时间。
     cache_control装饰器告诉了上游缓存可以以共缓存的形式缓存内容，并且告诉客户端浏览器，这个
     页面每次访问都要验证缓存，并且缓存有效时间为1200秒。
     '''
+    from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
     posts = BlogPost.objects.all()
-    return render(request, 'index.html', {'posts': posts}, )
+    paginator = Paginator(posts, 5)
+    page = request.GET.get('page')
+    try:
+        posts_of_page = paginator.page(page)
+    except PageNotAnInteger:
+        posts_of_page = paginator.page(1)
+    except EmptyPage:
+        posts_of_page = paginator.page(paginator.num_pages)
+
+    return render(request, 'index.html', {'posts': posts, 'posts_of_page': posts_of_page}, )
 
 
 def index_page_2(request):
@@ -70,12 +80,12 @@ def blog_show(request, id=''):
     except BlogPost.DoesNotExist:
         rs['pre'] = 0
 
-    return render(request, 'blog_show.html', {'post': post,
-                                              'context_list': context_list,
-                                              'next_post': rs['next'],
-                                              'pre_post': rs['pre'],
-                                             },
-                 )
+    return render(
+        request, 'blog_show.html', {
+          'post': post, 'context_list': context_list, 'next_post': rs['next'],
+          'pre_post': rs['pre'],
+        },
+    )
 
 
 class RSSFeed(Feed):
