@@ -10,11 +10,11 @@
 			  {# 下面语句是要重定向到detail_blog这个url，并且把post.id传给这个url #}
 			  <h2 ><a href="{% url 'detail_blog' post.id %}"><small>{{ post.title }}</small></a></h2>
 			  <p>作者：{{ post.author }}&nbsp;&nbsp;发表时间：{{ post.timestamp|date:"Y年m月j日 f" }}</p>
-			
-			  {% if post.summary %}
-			    <p class="text-indent">文章简介：&nbsp;{{ post.summary|truncatechars:200 }}</p>
-			  {% endif %}
-			
+			  <div class="post_content">
+				  {% if post.summary %}
+				    <p class="text-indent">文章简介：&nbsp;{{ post.summary|truncatechars:100 }}</p>
+				  {% endif %}
+			  </div>
 			  <p class="text-indent"><a  href="{% url 'detail_blog' post.id %}">{阅览全文}</a></p>
 			  <p class="page-header"></p>
 			{% endfor %}

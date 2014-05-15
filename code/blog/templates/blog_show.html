@@ -14,23 +14,27 @@
 			    
 			{# 下面的for循环的作用是接收包含图片、段落、代码等QuerySet对象的列表，根据discern字段 #}
 			{# 判断出类别，然后按照类别的不同而选择不同的方式表示出来 #}
-			
-			{% for var in context_list %}        
-			  {% ifequal var.discern 'paragraph' %}
-			    <p>{{ var.paragraph|markdown }} </p>
-			  {% endifequal %}
-			        
-			  {% ifequal var.discern 'code' %}
-			    <p><pre class="prettyprint">{{ var.content }}</pre></p>
-			  {% endifequal %}
-			        
-			  {% ifequal var.discern 'photo' %}
-			    <img src="http://127.0.0.1:8000/media/{{ var.image.url }}"/>
-			  {% endifequal %}
-			{% endfor %}
+			<div class="post_content">
+				{% for var in context_list %}        
+				  {% ifequal var.discern 'paragraph' %}
+				    <p>{{ var.paragraph|markdown }} </p>
+				  {% endifequal %}
+				        
+				  {% ifequal var.discern 'code' %}
+				    <p><pre class="prettyprint">{{ var.content }}</pre></p>
+				  {% endifequal %}
+				        
+				  {% ifequal var.discern 'photo' %}
+				    <img src="{{ var.url }}"/>
+				    <br>
+				    <br>
+				  {% endifequal %}
+				{% endfor %}
+			</div>
 			<br>
 			<div class="alert alert-info">
-			  <p>这篇文章是cjyfff的原创内容，欢迎各位转载，但请保留出处，感谢！</p>
+			  <p>这篇文章是cjyfff的原创内容，欢迎各位转载，但请保留出处: 
+			  http://cjyfff.sinaapp.com/blog/{{ post.id }}，感谢！</p>
 			</div>
 			<br></br>
 			<p>下一篇文章：
@@ -105,8 +109,4 @@
     </div>
 	</div>
 </div>
-{% endblock %}
-
-{% block extra_tail %}
-<script src="{% static "js/my_blog.js" %}"></script>
 {% endblock %}

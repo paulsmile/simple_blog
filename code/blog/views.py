@@ -46,7 +46,7 @@ def blog_show(request, id=''):
     view所对应的页面不被缓存。
     '''
 
-    def post_objects(objects, output_dict):
+    def create_post_objects(objects, output_dict):
         for i in xrange(len(objects)):
             output_dict[int('%d'%objects[i].sequence)] = objects[i]
 
@@ -60,9 +60,9 @@ def blog_show(request, id=''):
     codes = post.code_set.all()
     paragraphs = post.paragraph_set.all()
 
-    post_objects(photos, blog_post_list)
-    post_objects(codes, blog_post_list)
-    post_objects(paragraphs, blog_post_list)
+    create_post_objects(photos, blog_post_list)
+    create_post_objects(codes, blog_post_list)
+    create_post_objects(paragraphs, blog_post_list)
 
     context_list = []
     for x in sorted(blog_post_list):

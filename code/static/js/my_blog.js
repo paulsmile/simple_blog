@@ -7,6 +7,9 @@ $(document).ready(function (){
     control_submit(codeLength);
     modify_perview();
     initial_blog_page();
+    hide_top_btn();
+    show_top_btn();
+    top_btn();
 });
 
 function back_to_post(){
@@ -91,4 +94,25 @@ function modify_perview() {
     $("#my_preview").find("#id_email").attr("placeholder", "请输入您的邮箱（不会被公开）");
     $("#my_preview").find("#id_comment").attr("placeholder", "请输入您的评论");
     $("#my_preview").find("#id_url").parent().remove();
+}
+
+function hide_top_btn() {
+   $("#back-to-top").hide();
+}
+
+function show_top_btn() {
+	$(window).scroll(function () {
+		if ($(window).scrollTop()>100) {
+			$("#back-to-top").fadeIn(1200);
+		} else {
+			$("#back-to-top").fadeOut(1200);
+		}
+		});
+}
+
+function top_btn() {
+  $("#back-to-top").click(function () {
+    $("body, html").animate({scrollTop: 0}, 1200);
+    return false;
+  	});
 }

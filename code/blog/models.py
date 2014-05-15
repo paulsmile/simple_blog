@@ -12,9 +12,9 @@ class Tag(models.Model):
 
 class BlogPost(models.Model):
     title = models.CharField(max_length=150)
-    author = models.CharField(max_length=50, blank=True)
+    author = models.CharField(max_length=50)
     tag = models.ManyToManyField(Tag, blank=True)
-    summary = models.TextField(blank=True)
+    summary = models.TextField()
     timestamp = models.DateTimeField()
 
     def __unicode__(self):
@@ -32,17 +32,22 @@ class BlogPost(models.Model):
 
 class Paragraph(models.Model):
     discern = "paragraph"
+    describe = models.CharField(max_length=100)
     sequence = models.PositiveSmallIntegerField()
     tag = models.ManyToManyField(BlogPost)
     paragraph = models.TextField()
+
+    def __unicode__(self):
+        return self.describe
 
 
 class Photo(models.Model):
     discern = "photo"
     sequence = models.PositiveSmallIntegerField()
     title = models.CharField(max_length=100)
-    image = models.ImageField(upload_to='photos')
+    #image = models.ImageField(upload_to='photos', blank=True)
     tag = models.ManyToManyField(BlogPost)
+    url = models.CharField(max_length=100)
 
     def __unicode__(self):
         return self.title
