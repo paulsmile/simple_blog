@@ -35,7 +35,7 @@ p#back-to-top a{
       text-decoration:none;
       color:#3A87AD;
       display:block;
-      width:80px;
+      width:75px;
       -moz-transition:color 1s;
       -webkit-transition:color 1s;
       -o-transition:color 1s;
@@ -44,16 +44,16 @@ p#back-to-top a:hover{
       color:#3A87AD;
 }
 p#back-to-top a span{
-      background:#BCE8F1 no-repeat center center;
+      background:#BCE8F1 url(images/go_to_top.png) no-repeat center center;
       border-radius:6px;
       display:block;
-      height:80px;
-      width:80px;
+      height:78px;
+      width:78px;
       margin-bottom:5px;
       -moz-transition:background 1s;
       -webkit-transition:background 1s;
       -o-transition:background 1s;
 }
 #back-to-top a:hover span{
-      background:#3A87AD no-repeat center center;
+      background:#3A87AD url(images/go_to_top.png) no-repeat center center;
 }

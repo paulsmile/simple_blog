@@ -97,22 +97,24 @@ function modify_perview() {
 }
 
 function hide_top_btn() {
+	//隐藏返回顶部按钮
    $("#back-to-top").hide();
 }
 
 function show_top_btn() {
+	//显示返回顶部按钮
 	$(window).scroll(function () {
 		if ($(window).scrollTop()>100) {
-			$("#back-to-top").fadeIn(1200);
+			$("#back-to-top").fadeIn(1000);
 		} else {
-			$("#back-to-top").fadeOut(1200);
+			$("#back-to-top").fadeOut(1000);
 		}
 		});
 }
 
 function top_btn() {
   $("#back-to-top").click(function () {
-    $("body, html").animate({scrollTop: 0}, 1200);
+    $("body, html").animate({scrollTop: 0}, 1000);
     return false;
   	});
 }
