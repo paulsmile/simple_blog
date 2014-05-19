@@ -60,17 +60,20 @@
 {% block extra_tail %}
 {% endblock %}
 <div class="container">
-  <p class="page-header"></p>
-	<div class="row-fluid">
-		<div class="span3" align="center">
-      <p><b>感谢浏览此博客</b></p>		  
-		  <img src="{% static "photos/logo.jpeg" %}" width="60" height="60"/>
-		</div>
-		<div class="span5">
-	  <p><b>关于: </b></p>
-	    <p>本博客后端采用Django框架，前端采用Bootstrap框架。</p>
-	    <p>感谢python，让我从新找到编程的乐趣 ！</p>
+  <div id="bottom_bar">  
+	  <p class="page-header"></p>
+		<div class="row-fluid">
+			<div class="span3" align="center">
+	      <p><b>感谢浏览此博客</b></p>		  
+			  <img src="{% static "photos/logo.jpeg" %}" width="60" height="60"/>
+			</div>
+			<div class="span5">
+		  <p><b>关于: </b></p>
+		    <p>本博客后端采用Django框架，前端采用Bootstrap框架。</p>
+		    <p>感谢python，让我从新找到编程的乐趣 ！</p>
+		  </div>
 	  </div>
+	  <br>
   </div>
   <br>
 </div>

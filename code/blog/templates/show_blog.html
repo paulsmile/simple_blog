@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}CJYFFF的简单BLOG:{{ post.title }}{% endblock %}
+{% block title %}CJYFFF的简单BLOG: {{ post.title }}{% endblock %}
 
 {% block body %}
 {% load comments %}
@@ -97,14 +97,24 @@
 			<br>
 	  </div>
 	  <div class="span3 sidebar">
-      <div class="alert alert-info">      
-	      <h3 class="page-header">关于博主</h3>
-	      <p><b>一个在地球online苦苦练级的程序猿，武器是python，js和c。
-	      来自广东工业大学。求各位大牛带带小的刷这个副本。</b></p>
-	      <br>      
-	      <p><b>联系我：</b></p>
-	      <p><b>邮箱: </b>cjyfff#163.com</p>
-	      <p><b>QQ: </b>631127458</p>
+      <div class="alert alert-info">
+        <div>
+		      <h3 class="page-header">关于博主</h3>
+		      <p><b>一个在地球online苦苦练级的程序猿，武器是python，js和c。
+		      来自广东工业大学。求各位大牛带带小的刷这个副本。</b></p>
+		      <br>      
+		      <p><b>联系我：</b></p>
+		      <p><b>邮箱: </b>cjyfff#163.com</p>
+		      <p><b>QQ: </b>631127458</p>
+		    </div>
+	      <br>
+	      <div>
+	        <h4 class="page-header">我的标签</h4>
+	        <br>
+          {% for k, v in tag_list.items %}
+            <p><a href="{% url 'tag_page' k %}">{{ k }}: ({{ v }})</a></p>
+          {% endfor %}
+	      </div>
       </div>
     </div>
 	</div>

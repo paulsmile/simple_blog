@@ -25,7 +25,7 @@ class BlogPost(models.Model):
 
     def get_absolute_url(self):
         from django.core.urlresolvers import reverse
-        return reverse('blog.views.blog_show', args=[str(self.id)])
+        return reverse('blog.views.show_blog', args=[str(self.id)])
 
 # 下面的Paragraph、Photo、Code类代表着博客正文中的文字段落、代码以及图片
 # 它们各有一个sequence属性，用来表示这些models在博客正文中所出现的顺序。

@@ -1,11 +1,12 @@
 #coding=utf-8
 from django.shortcuts import render
-from blog.models import BlogPost
+from blog.models import BlogPost, Tag
 from django.http import Http404, HttpResponseRedirect
 from django.views.decorators.cache import cache_page
 from django.views.decorators.cache import cache_control
 from django.views.decorators.cache import never_cache
 from django.contrib.syndication.views import Feed
+from django.utils.functional import cached_property
 
 
 @cache_page(60 * 15)
@@ -28,7 +29,13 @@ def index_page(request):
     except EmptyPage:
         posts_of_page = paginator.page(paginator.num_pages)
 
-    return render(request, 'index.html', {'posts_of_page': posts_of_page}, )
+    tag_objects = ProcessTag()
+    tag_list = tag_objects.count_tag
+
+    return render(request, 'index.html', {
+        'posts_of_page': posts_of_page,
+        'tag_list': tag_list,
+    }, )
 
 
 def index_page_2(request):
@@ -38,12 +45,10 @@ def index_page_2(request):
 
 
 @never_cache
-def blog_show(request, id=''):
-    '''这个view的作用是显示博客的正文内容。
-    这个view会根据段落、图片、代码对象的sequence属性的值进行排序，
-    生成一个最终显示列表返回给模版进行渲染。
-    为了实现评论后刷新页面能马上看到评论信息，加入了nerver_cache装饰器使得这个
-    view所对应的页面不被缓存。
+def show_blog(request, id=''):
+    '''这个view的作用是显示博客的正文内容。主要作用有：
+    1 根据段落、图片、代码对象的sequence属性的值进行排序，生成一个最终显示列表返回给模版进行渲染。
+    2 实现上一页/下一页的选项
     '''
 
     def create_post_objects(objects, output_dict):
@@ -80,12 +85,49 @@ def blog_show(request, id=''):
     except BlogPost.DoesNotExist:
         rs['pre'] = 0
 
+    tag_objects = ProcessTag()
+    tag_list = tag_objects.count_tag
+
     return render(
-        request, 'blog_show.html', {
-          'post': post, 'context_list': context_list, 'next_post': rs['next'],
-          'pre_post': rs['pre'],
+        request, 'show_blog.html', {
+            'post': post,
+            'context_list': context_list,
+            'next_post': rs['next'],
+            'pre_post': rs['pre'],
+            'tag_list': tag_list,
         },
     )
+
+
+class ProcessTag(object):
+
+    def __init__(self):
+        self.tags = Tag.objects.all()
+
+    @cached_property
+    def count_tag(self):
+        '''生成标签，并且计算各标签中包含的文章数量'''
+        tag_list = {}
+        for tag in self.tags:
+            posts_of_tag = tag.blogpost_set.all()
+            tag_amount = len(posts_of_tag)
+            tag_list['%s' % tag.tag_name] = tag_amount
+        return tag_list
+
+    def show_tag_page(self, request, tag_name):
+        '''渲染模板，生成标签页面'''
+        for tag in self.tags:
+            if tag.tag_name == tag_name:
+                target_tag = tag
+                break
+        target_post = target_tag.blogpost_set.all()
+        tag_list = self.count_tag
+
+        return render(request, 'tag_page.html', {
+            'target_post': target_post,
+            'tag_name': tag_name,
+            'tag_list': tag_list,
+            }, )
 
 
 class RSSFeed(Feed):
