@@ -111,9 +111,27 @@
 	      <div>
 	        <h4 class="page-header">我的标签</h4>
 	        <br>
-          {% for k, v in tag_list.items %}
-            <p><a href="{% url 'tag_page' k %}">{{ k }}: ({{ v }})</a></p>
-          {% endfor %}
+          <ul>
+	          {% for k, v in tag_list.items %}
+	            <li>
+	              <p><a href="{% url 'tag_page' k %}">{{ k }}: ({{ v }})</a></p>
+	            </li>
+	          {% endfor %}
+          </ul>
+        <br>
+	      </div>
+	      <div>
+          <h4 class="page-header">最新评论</h4>
+          <br>
+          <ul>
+	          {% for all_comment in all_comments %}
+	            <li>
+		            <p><a href="{% url 'detail_blog' all_comment.object_pk %}">
+		            {{ all_comment.name }}&nbsp;&nbsp;Re: {{ all_comment.comment }}</a></p>
+	            </li>
+	          {% endfor %}
+          </ul>
+         <br>
 	      </div>
       </div>
     </div>

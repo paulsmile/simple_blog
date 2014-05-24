@@ -30,12 +30,16 @@ def index_page(request):
         posts_of_page = paginator.page(paginator.num_pages)
 
     tag_objects = ProcessTag()
-    tag_list = tag_objects.count_tag
+    tag_list = tag_objects.count
+    show_lastest_comment = ShowLastestComment()
+    all_comments = show_lastest_comment.show
 
     return render(request, 'index.html', {
         'posts_of_page': posts_of_page,
         'tag_list': tag_list,
-    }, )
+        'all_comments': all_comments,
+        },
+    )
 
 
 def index_page_2(request):
@@ -86,7 +90,9 @@ def show_blog(request, id=''):
         rs['pre'] = 0
 
     tag_objects = ProcessTag()
-    tag_list = tag_objects.count_tag
+    tag_list = tag_objects.count
+    show_lastest_comment = ShowLastestComment()
+    all_comments = show_lastest_comment.show
 
     return render(
         request, 'show_blog.html', {
@@ -95,6 +101,7 @@ def show_blog(request, id=''):
             'next_post': rs['next'],
             'pre_post': rs['pre'],
             'tag_list': tag_list,
+            'all_comments': all_comments,
         },
     )
 
@@ -105,7 +112,7 @@ class ProcessTag(object):
         self.tags = Tag.objects.all()
 
     @cached_property
-    def count_tag(self):
+    def count(self):
         '''生成标签，并且计算各标签中包含的文章数量'''
         tag_list = {}
         for tag in self.tags:
@@ -114,20 +121,31 @@ class ProcessTag(object):
             tag_list['%s' % tag.tag_name] = tag_amount
         return tag_list
 
-    def show_tag_page(self, request, tag_name):
+    def show(self, request, tag_name):
         '''渲染模板，生成标签页面'''
         for tag in self.tags:
             if tag.tag_name == tag_name:
                 target_tag = tag
                 break
         target_post = target_tag.blogpost_set.all()
-        tag_list = self.count_tag
+        tag_list = self.count
 
         return render(request, 'tag_page.html', {
             'target_post': target_post,
             'tag_name': tag_name,
             'tag_list': tag_list,
             }, )
+
+
+class ShowLastestComment(object):
+
+    def __init__(self):
+        from django_comments.forms import Comment
+        self.all_comments = Comment.objects.all()
+
+    @cached_property
+    def show(self):
+        return self.all_comments
 
 
 class RSSFeed(Feed):

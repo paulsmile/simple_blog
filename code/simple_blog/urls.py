@@ -6,7 +6,7 @@ from django.conf import settings
 
 admin.autodiscover()
 process_tag = ProcessTag()
-show_tag_page = process_tag.show_tag_page
+show_tag_page = process_tag.show
 
 urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
