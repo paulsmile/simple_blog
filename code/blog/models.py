@@ -32,8 +32,8 @@ class BlogPost(models.Model):
 
 class Paragraph(models.Model):
     discern = "paragraph"
-    describe = models.CharField(max_length=100)
     sequence = models.PositiveSmallIntegerField()
+    describe = models.CharField(max_length=100)
     tag = models.ManyToManyField(BlogPost)
     paragraph = models.TextField()
 
@@ -57,8 +57,8 @@ class Code(models.Model):
     discern = "code"
     sequence = models.PositiveSmallIntegerField()
     title = models.CharField(max_length=150)
-    content = models.TextField()
     tag = models.ManyToManyField(BlogPost)
+    content = models.TextField()
 
     def __unicode__(self):
         return self.title
