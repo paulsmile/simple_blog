@@ -32,12 +32,12 @@ def index_page(request):
     tag_objects = ProcessTag()
     tag_list = tag_objects.count
     show_lastest_comment = ShowLastestComment()
-    all_comments = show_lastest_comment.show
+    all_comments_list = show_lastest_comment.show
 
     return render(request, 'index.html', {
         'posts_of_page': posts_of_page,
         'tag_list': tag_list,
-        'all_comments': all_comments,
+        'all_comments_list': all_comments_list,
         },
     )
 
@@ -92,7 +92,7 @@ def show_blog(request, id=''):
     tag_objects = ProcessTag()
     tag_list = tag_objects.count
     show_lastest_comment = ShowLastestComment()
-    all_comments = show_lastest_comment.show
+    all_comments_list = show_lastest_comment.show
 
     return render(
         request, 'show_blog.html', {
@@ -101,7 +101,7 @@ def show_blog(request, id=''):
             'next_post': rs['next'],
             'pre_post': rs['pre'],
             'tag_list': tag_list,
-            'all_comments': all_comments,
+            'all_comments_list': all_comments_list,
         },
     )
 
@@ -145,7 +145,26 @@ class ShowLastestComment(object):
 
     @cached_property
     def show(self):
-        return self.all_comments
+        all_comments_list = []
+        for comment in self.all_comments:
+            submit_date = comment.submit_date
+            name = comment.name
+            content = comment.comment
+            # 评论所对应的文章的标题
+            blog_title = BlogPost.objects.get(id=comment.object_pk).title
+            # 评论所对应的文章的id
+            blog_id = comment.object_pk
+            all_comments_list.append([
+                submit_date,
+                name,
+                content,
+                blog_title,
+                blog_id,
+            ])
+        all_comments_list = sorted(all_comments_list, key=lambda x: x[0],
+            reverse=True)
+        all_comments_list = all_comments_list[:10]
+        return all_comments_list
 
 
 class RSSFeed(Feed):
