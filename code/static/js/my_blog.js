@@ -1,5 +1,5 @@
 $(document).ready(function (){
-    var	codeLength = 4;
+    var codeLength = 4;
     submit_comment();
     back_to_post();
     create_code(codeLength);
@@ -48,7 +48,6 @@ function create_code(codeLength){
         code +=selectChar[charIndex];
     }
     if(checkCode){
-        checkCode.addClass("code");
         checkCode.val(code);
     }
 }
@@ -72,11 +71,10 @@ function control_submit(codeLength) {
                 $("#valid_failed").text("");
             } else if (code_len > codeLength) {
                 $("#valid_failed").text("验证码错误");
-    	  $("#submit_comment").attr("disabled", true);
-           } else {
+            } else {
                 if (verify_code()) {
                     $("#submit_comment").attr("disabled", false);
-	 } else {
+	  } else {
 	      $("#valid_failed").text("验证码错误");			       
 	  }
            }
