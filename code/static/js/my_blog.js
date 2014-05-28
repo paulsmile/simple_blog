@@ -21,7 +21,7 @@ function back_to_post(){
 
 function submit_comment() {
     //实现ctrl+enter提交评论
-    $(document).keypress(function e() {
+    $(document).keypress(function (e) {
         if (e.ctrlKey && e.which === 13 || e.which === 10) {
             $("#comment_from").submit();
         }
