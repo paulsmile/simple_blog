@@ -1,7 +1,9 @@
 #coding=utf-8
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
-from blog.views import index_page, index_page_2, show_blog, RSSFeed, ProcessTag
+from blog.views import index_page, index_page_2, show_blog, RSSFeed,\
+ProcessTag
+from weixin.views import weixin_api
 from django.conf import settings
 
 admin.autodiscover()
@@ -16,6 +18,7 @@ urlpatterns = patterns('',
     url(r'^blog/(?P<id>\d+)/$', show_blog, name='detail_blog'),
     url(r'^latest/feed/$', RSSFeed(), name='RSS_url'),
     url(r'^tag_page/(?P<tag_name>.+)/$', show_tag_page, name='tag_page'),
+    url(r'^weixin/$', weixin_api),
 )
 
 if settings.DEBUG:
