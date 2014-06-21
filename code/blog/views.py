@@ -12,11 +12,7 @@ from django.utils.functional import cached_property
 @cache_page(60 * 15)
 @cache_control(public=True, must_revalidate=True, max_age=1200)
 def index_page(request):
-    '''这个view的功能是显示主页，并实现分页功能。
-    cache_page装饰器定义了这个view所对应的页面的缓存时间。
-    cache_control装饰器告诉了上游缓存可以以共缓存的形式缓存内容，并且告诉客户端浏览器，这个
-    页面每次访问都要验证缓存，并且缓存有效时间为1200秒。
-    '''
+    '''Index page view, this view also implement paginator function.'''
     from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
     posts = BlogPost.objects.all()
@@ -43,16 +39,18 @@ def index_page(request):
 
 
 def index_page_2(request):
-    '''这个view的作用是把指向站点根目录的请求重定向到/index/'''
+    '''Redirect '/' request to '/index/'.'''
 
     return HttpResponseRedirect('/index/')
 
 
 @never_cache
 def show_blog(request, id=''):
-    '''这个view的作用是显示博客的正文内容。主要作用有：
-    1 根据段落、图片、代码对象的sequence属性的值进行排序，生成一个最终显示列表返回给模版进行渲染。
-    2 实现上一页/下一页的选项
+    '''This view is for showing articles of the blog.models.
+    The functions of this views has:
+    1 Showing the paragraphs, pictures and codes order by the their 'sequence'
+      properties which are define in the models.
+    2 Implementing links of the next\previous pages.
     '''
 
     def create_post_objects(objects, output_dict):
@@ -113,7 +111,9 @@ class ProcessTag(object):
 
     @cached_property
     def count(self):
-        '''生成标签，并且计算各标签中包含的文章数量'''
+        '''Generating the tag,
+        and counting the amount of the articles of each tag.
+        '''
         tag_list = {}
         for tag in self.tags:
             posts_of_tag = tag.blogpost_set.all()
@@ -122,7 +122,7 @@ class ProcessTag(object):
         return tag_list
 
     def show(self, request, tag_name):
-        '''渲染模板，生成标签页面'''
+        '''Generating the tag's page.'''
         for tag in self.tags:
             if tag.tag_name == tag_name:
                 target_tag = tag
@@ -145,14 +145,13 @@ class ShowLastestComment(object):
 
     @cached_property
     def show(self):
+        '''Show the latest comments on the pages'''
         all_comments_list = []
         for comment in self.all_comments:
             submit_date = comment.submit_date
             name = comment.name
             content = comment.comment
-            # 评论所对应的文章的标题
             blog_title = BlogPost.objects.get(id=comment.object_pk).title
-            # 评论所对应的文章的id
             blog_id = comment.object_pk
             all_comments_list.append([
                 submit_date,
@@ -168,7 +167,7 @@ class ShowLastestComment(object):
 
 
 class RSSFeed(Feed):
-    '''实现RSS功能，按时间排序显示最新的5篇文章。'''
+    '''Implementing the RSS function. Show the 5 of the latest articles.'''
 
     title = "CJYFFF的简单博客"
     description = "反映CJYFFF博客的最新文章"

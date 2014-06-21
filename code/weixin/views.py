@@ -17,7 +17,8 @@ RES_TEXT_FORMAT = '''
 
 @csrf_exempt
 def weixin_api(request):
-    '''微信公众平台接口，负责响应公众平台发送过来的所有消息'''
+    '''API interface of the weixin MP.'''
+
     import logging
     if not request.GET and not request.body:
         return HttpResponse()
@@ -36,7 +37,8 @@ def weixin_api(request):
 
 
 def checkSignature(request):
-    '''验证所收到的信息是否来自微信公众平台'''
+    '''Checking the messages to confirm whether they are come from weixin MP.'''
+
     import hashlib
     signature = request.GET.get('signature', None)
     timestamp = request.GET.get('timestamp', None)
@@ -53,7 +55,7 @@ def checkSignature(request):
 
 
 def paraseMsg(request):
-    '''处理微信公众平台所有以POST方式传过来的数据'''
+    '''Handling the requests from weixin MP which are sending by 'POST' method.'''
     import xml.etree.ElementTree as ET
     rawStr = request.raw_post_data
     msg = paraseMsgXml(ET.fromstring(rawStr))
@@ -64,7 +66,7 @@ def paraseMsg(request):
 
 
 def paraseMsgXml(root_elem):
-    '''把XML格式的文件转换为字典'''
+    '''Change XML to dict.'''
     msg = {}
     if root_elem.tag == 'xml':
         for child in root_elem:
@@ -73,7 +75,7 @@ def paraseMsgXml(root_elem):
 
 
 def paraseEvent(msg):
-    '''当公众平台POST过来的信息是事件类型时，处理该事件'''
+    '''Handling the events which are send from weixin MP by 'POST' method.'''
     # msg is a dict
     if msg['Event'] == 'subscribe':
         weixinClientUser = WeixinClientUser(UserName=msg['FromUserName'])
@@ -88,14 +90,14 @@ def paraseEvent(msg):
 
 
 def responeCliMsg(msg):
-    '''回应客户发送过来的信息'''
+    '''Respone the client's messages.'''
     return sendMsg('text', msg['FromUserName'],
         Content = 'Hello, 收到您的信息啦',
     )
 
 
 def sendMsg(type, client_user, **msg):
-    '''把需要发送的内容转化为xml格式'''
+    '''Change the messages into XML format.'''
     import time
     if type == 'text':
         ToUserName = settings.ToUserName

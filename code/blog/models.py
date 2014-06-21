@@ -27,8 +27,8 @@ class BlogPost(models.Model):
         from django.core.urlresolvers import reverse
         return reverse('blog.views.show_blog', args=[str(self.id)])
 
-# 下面的Paragraph、Photo、Code类代表着博客正文中的文字段落、代码以及图片
-# 它们各有一个sequence属性，用来表示这些models在博客正文中所出现的顺序。
+# The classes of Paragraph、Photo、Code have properties named 'sequence',
+# which are stand for the sequence when they are shown in the articles.
 
 class Paragraph(models.Model):
     discern = "paragraph"

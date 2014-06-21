@@ -11,9 +11,7 @@
       <h3 class="main_title">{{ post.title }}</h3>
         <h2><small>{{ post.author }}</small></h2>
         <h3><small>{{ post.timestamp|date:"Y年m月j日 f" }}</small></h3>
-            
-        {# 下面的for循环的作用是接收包含图片、段落、代码等QuerySet对象的列表，根据discern字段 #}
-        {# 判断出类别，然后按照类别的不同而选择不同的方式表示出来 #}
+
         <div class="post_content">
           {% for var in context_list %}        
             {% ifequal var.discern 'paragraph' %}
@@ -53,7 +51,7 @@
         
         {% get_comment_count for post as comment_count %}
         <h4 class="page-header"><small>这篇文章有 {{ comment_count }} 条评论：</small></h4>
-        {# django自带的comment模块会自动获取当前post的id，因为post已经是BlogPost的实例 #}
+        {# Django'comment module will get the post's id automatically, accoding to the post aleardly being the object of the BlogPost. #}
         {% get_comment_list for post as comment_list %}
         {% for comment in comment_list %}
           <div class="alert alert-success">
