@@ -18,7 +18,7 @@ urlpatterns = patterns('',
     url(r'^blog/(?P<id>\d+)/$', show_blog, name='detail_blog'),
     url(r'^latest/feed/$', RSSFeed(), name='RSS_url'),
     url(r'^tag_page/(?P<tag_name>.+)/$', show_tag_page, name='tag_page'),
-    url(r'^weixin/$', weixin_api),
+    url(r'^weixin/$', weixin_api, name='weixin_api'),
 )
 
 if settings.DEBUG:
