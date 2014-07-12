@@ -15,9 +15,11 @@ def index_page(request):
     '''Index page view, this view also implement paginator function.'''
     from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
+    RANGE_MAX = 5
     posts = BlogPost.objects.all()
     paginator = Paginator(posts, 5)
     page = request.GET.get('page')
+
     try:
         posts_of_page = paginator.page(page)
     except PageNotAnInteger:
@@ -30,10 +32,23 @@ def index_page(request):
     show_lastest_comment = ShowLastestComment()
     all_comments_list = show_lastest_comment.show
 
+    page_range = paginator.page_range
+    current_page = posts_of_page.number
+    if len(page_range) > RANGE_MAX:
+        if current_page > RANGE_MAX/2:
+            border = page_range[-1] - current_page
+            if border < RANGE_MAX/2:
+                page_range = page_range[current_page - RANGE_MAX + border:]
+            else:
+                page_range = page_range[current_page - RANGE_MAX/2 - 1:current_page + RANGE_MAX/2 -1]
+        else:
+            page_range = page_range[:RANGE_MAX]
+
     return render(request, 'index.html', {
         'posts_of_page': posts_of_page,
         'tag_list': tag_list,
         'all_comments_list': all_comments_list,
+        'page_range': page_range,
         },
     )
 

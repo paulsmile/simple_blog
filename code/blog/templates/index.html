@@ -18,16 +18,23 @@
         <p class="page-header"></p>
       {% endfor %}
       <div class="posts_of_page">
-      <span class="step-link">
+      <span class="paging">
       {% if posts_of_page.has_previous %}
-        <a href="?page={{ posts_of_page.previous_page_number }}">上一页</a>
+        <a href="?page={{ posts_of_page.previous_page_number }}"><font color="#0000cd">&#9664;上一页</font></a>
       {% endif %}
-      <span class="current">
-      第{{ posts_of_page.number }}页
-      共计{{ posts_of_page.paginator.num_pages }}页
+      <span>
+        {% for num in page_range %}
+        <a href="?page={{ num }}">
+          {% ifequal num posts_of_page.number %}
+          <font color="#0000cd">{{ num }}</font>
+          {% else %}
+          <font color="#3a87ad">{{ num }}</font>
+          {% endifequal %}
+        </a>
+        {% endfor %}
       </span>
       {% if posts_of_page.has_next %}
-        <a href="?page={{ posts_of_page.next_page_number }}">下一页</a>
+        <a href="?page={{ posts_of_page.next_page_number }}"><font color="#0000cd">下一页&#9654;</font></a>
       {% endif %}
       </span>
       </div>

@@ -53,3 +53,7 @@ p#back-to-top a span{
 #back-to-top a:hover span{
       background:#3A87AD url(images/go_to_top.png) no-repeat center center;
 }
+
+.paging{
+  letter-spacing:5px;
+}
