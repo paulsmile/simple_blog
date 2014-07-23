@@ -144,11 +144,14 @@ class ProcessTag(object):
                 break
         target_post = target_tag.blogpost_set.all()
         tag_list = self.count
+        show_lastest_comment = ShowLastestComment()
+        all_comments_list = show_lastest_comment.show
 
         return render(request, 'tag_page.html', {
             'target_post': target_post,
             'tag_name': tag_name,
             'tag_list': tag_list,
+            'all_comments_list': all_comments_list,
             }, )
 
 
