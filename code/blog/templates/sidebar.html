@@ -14,7 +14,7 @@
     <h4 class="page-header">我的标签</h4>
     <br>
     <ul>
-      {% for k, v in tag_list.items %}
+      {% for k, v in tags_list.iteritems %}
         <li>
           <p><a href="{% url 'tag_page' k %}">{{ k }}: ({{ v }})</a></p>
         </li>
