@@ -66,7 +66,7 @@ class IndexView(BaseView, TemplateView):
         from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
         context = super(IndexView, self).get_context_data(**kwargs)
 
-        RANGE_MAX = 5
+        RANGE_MAX = 4
         posts = BlogPost.objects.all()
         paginator = Paginator(posts, 5)
         page = self.request.GET.get('page')
