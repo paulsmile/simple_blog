@@ -10,7 +10,7 @@
     <div class="span9 main">
       <h3 class="main_title">{{ post.title }}</h3>
         <h2><small>{{ post.author }}</small></h2>
-        <h3><small>{{ post.timestamp|date:"Y年m月j日 f" }}</small></h3>
+        <h3><small>{{ post.timestamp|date:"Y.n.d H:i" }}</small></h3>
 
         <div class="post_content">
           {% for var in context_list %}        
@@ -55,7 +55,7 @@
         {% get_comment_list for post as comment_list %}
         {% for comment in comment_list %}
           <div class="alert alert-success">
-            <p><small>{{ comment.name }}&nbsp;&nbsp;发表于&nbsp;&nbsp;{{ comment.submit_date|date:"Y年m月j日 f" }}&nbsp;:</small></p>
+            <p><small>{{ comment.name }}&nbsp;&nbsp;发表于&nbsp;&nbsp;{{ comment.submit_date|date:"Y.n.d H:i" }}&nbsp;:</small></p>
             <p>{{ comment.comment }}</p>
           </div>
         {% endfor %}

@@ -8,7 +8,7 @@
       {% for post in posts_of_page %}		 
         {# The code below is redirect to the url named 'detail_blog', and send 'post.id' to this url. #}
         <h2 ><a href="{% url 'detail_blog' post.id %}"><small>{{ post.title }}</small></a></h2>
-        <p>作者：{{ post.author }}&nbsp;&nbsp;发表时间：{{ post.timestamp|date:"Y年m月j日 f" }}</p>
+        <p>作者：{{ post.author }}&nbsp;&nbsp;发表时间：{{ post.timestamp|date:"Y.n.d H:i" }}</p>
         <div class="post_content">
         {% if post.summary %}
           <p class="text-indent">文章简介：&nbsp;{{ post.summary|truncatechars:100 }}</p>
