@@ -7,6 +7,8 @@ from django.views.generic.base import View, ContextMixin, RedirectView
 from django.views.generic import TemplateView
 from django.core.urlresolvers import reverse_lazy
 from django_comments.forms import Comment
+from django.core.urlresolvers import reverse
+from django.conf import settings
 
 from blog.models import BlogPost, Tag
 
@@ -157,7 +159,7 @@ class ShowBlogView(BaseView, TemplateView):
 
 class ShowTagView(BaseView, TemplateView):
     '''Generating the tag's page.'''
-    template_name = 'tag_page.html'
+    template_name = 'show_tag.html'
 
     def get_context_data(self, **kwargs):
         context = super(ShowTagView, self).get_context_data(**kwargs)
@@ -185,3 +187,6 @@ class RSSFeed(Feed):
 
     def item_description(self, item):
         return item.title
+
+    def item_link(self, item):
+        return settings.DOMAIN + reverse('show_blog', kwargs={'id': item.id})

@@ -12,8 +12,8 @@ urlpatterns = patterns('',
 
     url(r'^index/$', IndexView.as_view(), name='index_page'),
     url(r'^$', IndexRedirectView.as_view(), name='index_redirect'),
-    url(r'^blog/(?P<id>\d+)/$', ShowBlogView.as_view(), name='detail_blog'),
-    url(r'^tag_page/(?P<tag_name>.+)/$', ShowTagView.as_view(), name='tag_page'),
+    url(r'^blog/(?P<id>\d+)/$', ShowBlogView.as_view(), name='show_blog'),
+    url(r'^tag_page/(?P<tag_name>.+)/$', ShowTagView.as_view(), name='show_tag'),
     url(r'^comments/', include('django_comments.urls')),
 
     url(r'^latest/feed/$', RSSFeed(), name='RSS_url'),

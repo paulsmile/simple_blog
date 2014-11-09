@@ -16,7 +16,7 @@
     <ul>
       {% for k, v in tags_list.iteritems %}
         <li>
-          <p><a href="{% url 'tag_page' k %}">{{ k }}: ({{ v }})</a></p>
+          <p><a href="{% url 'show_tag' k %}">{{ k }}: ({{ v }})</a></p>
         </li>
       {% endfor %}
   </ul>
@@ -28,7 +28,7 @@
     <ul>
       {% for all_comment in all_comments_list %}
         <li>
-        <p><b><a href="{% url 'detail_blog' all_comment.4 %}">
+        <p><b><a href="{% url 'show_blog' all_comment.4 %}">
         {{ all_comment.1 }}&nbsp;&nbsp;回复：{{ all_comment.3 }}：</a></b></p>
         <p>{{ all_comment.2 }}</p>
         </li>

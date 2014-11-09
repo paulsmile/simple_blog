@@ -6,15 +6,15 @@
   <div id="content" class="row-fluid">
     <div class="span9 main">
       {% for post in posts_of_page %}		 
-        {# The code below is redirect to the url named 'detail_blog', and send 'post.id' to this url. #}
-        <h2 ><a href="{% url 'detail_blog' post.id %}"><small>{{ post.title }}</small></a></h2>
+        {# The code below is redirect to the url named 'show_blog', and send 'post.id' to this url. #}
+        <h2 ><a href="{% url 'show_blog' post.id %}"><small>{{ post.title }}</small></a></h2>
         <p>作者：{{ post.author }}&nbsp;&nbsp;发表时间：{{ post.timestamp|date:"Y.n.d H:i" }}</p>
         <div class="post_content">
         {% if post.summary %}
           <p class="text-indent">文章简介：&nbsp;{{ post.summary|truncatechars:100 }}</p>
         {% endif %}
         </div>
-        <p class="text-indent"><a  href="{% url 'detail_blog' post.id %}">{阅览全文}</a></p>
+        <p class="text-indent"><a  href="{% url 'show_blog' post.id %}">{阅览全文}</a></p>
         <p class="page-header"></p>
       {% endfor %}
       <div class="posts_of_page">

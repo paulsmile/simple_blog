@@ -7,11 +7,13 @@
     <div class="span9 main">
     <h4 class="main_title">{{ tag_name }} 标签： </h4>
     {% for post in target_post %}
-      <h3><a href="{% url 'detail_blog' post.id %}"><small>{{post.title}}</small></a></h3>
+      <h3><a href="{% url 'show_blog' post.id %}"><small>{{post.title}}</small></a></h3>
     {% endfor %}
     <br>
     <br>
-    <button class="btn btn-info" type="button" id="back_to_post">返回上一页</button>
+    <div class="text-center">
+      <button class="btn btn-info" type="button" id="back_to_post">返回上一页</button>
+    </div>
     </div>
   {% include "sidebar.html" %}
   </div>

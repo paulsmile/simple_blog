@@ -37,14 +37,14 @@
         <br></br>
         <p>下一篇文章：
         {% if next_post %}
-          <a href="{% url 'detail_blog' next_post.id %}">{{ next_post.title }}</a>
+          <a href="{% url 'show_blog' next_post.id %}">{{ next_post.title }}</a>
         {% else %}
           没有了
         {% endif %}
         </p>
         <p>上一篇文章：
         {% if pre_post %}
-          <a href="{% url 'detail_blog' pre_post.id %}">{{ pre_post.title }}</a>
+          <a href="{% url 'show_blog' pre_post.id %}">{{ pre_post.title }}</a>
         {% else %}
           没有了
         {% endif %}

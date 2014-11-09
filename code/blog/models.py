@@ -23,9 +23,6 @@ class BlogPost(models.Model):
     class Meta(object):
         ordering = ['-timestamp']
 
-    def get_absolute_url(self):
-        from django.core.urlresolvers import reverse
-        return reverse('blog.views.show_blog', args=[str(self.id)])
 
 # The classes of Paragraph、Photo、Code have properties named 'sequence',
 # which are stand for the sequence when they are shown in the articles.
