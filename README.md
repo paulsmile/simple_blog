@@ -1,11 +1,13 @@
 一个使用Django和Bootstrap搭建起来的博客    
-基本功能已经完善，后续有时间我将继续完善这个程序    
+此博客目前已经部署到SAE[（地址）](http://cjyfff.sinaapp.com)   
     
 ###依赖：    
 1、django 1.6    
 2、python 2.7   
 3、django-contrib-comments    
 4、markdown      
+5、JQuery 1.11   
+6、BootStrap 2.2.2   
     
 ###目前已经实现的功能：    
 1、博客正文支持markdown语法，支持代码高亮    
@@ -14,5 +16,3 @@
 4、首页实现了分页显示    
 5、实现了RSS功能    
 
-###目前存在的问题：   
-1、模板中添加上国际化的支持，但是不起作用    

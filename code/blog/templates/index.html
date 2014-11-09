@@ -17,7 +17,7 @@
         <p class="text-indent"><a  href="{% url 'show_blog' post.id %}">{阅览全文}</a></p>
         <p class="page-header"></p>
       {% endfor %}
-      <div class="posts_of_page">
+      <div class="posts_of_page text-center">
       <span class="paging">
       {% if posts_of_page.has_previous %}
         <a href="?page={{ posts_of_page.previous_page_number }}"><font color="#0000cd">&#9664;上一页</font></a>
