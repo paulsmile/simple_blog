@@ -15,7 +15,7 @@ class BlogPost(models.Model):
     author = models.CharField(max_length=50)
     tag = models.ManyToManyField(Tag, blank=True)
     summary = models.TextField()
-    timestamp = models.DateTimeField()
+    timestamp = models.DateTimeField(auto_now_add=True)
 
     def __unicode__(self):
         return u'%s %s %s' % (self.title, self.author, self.timestamp)
@@ -59,3 +59,11 @@ class Code(models.Model):
 
     def __unicode__(self):
         return self.title
+
+
+class MyComment(models.Model):
+    author = models.CharField(max_length=32)
+    author_email = models.EmailField(max_length=64)
+    created_at = models.DateTimeField(auto_now_add=True)
+    content = models.TextField()
+    blog = models.ForeignKey(BlogPost)

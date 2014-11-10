@@ -6,11 +6,21 @@ from django.contrib.syndication.views import Feed
 from django.views.generic.base import View, ContextMixin, RedirectView
 from django.views.generic import TemplateView
 from django.core.urlresolvers import reverse_lazy
-from django_comments.forms import Comment
 from django.core.urlresolvers import reverse
 from django.conf import settings
+from django.http import HttpResponse
 
-from blog.models import BlogPost, Tag
+from blog.models import BlogPost, Tag, MyComment
+from blog.forms import MyCommentForm
+
+import json
+
+
+def render_json_response(ret, status=200, headers={}):
+    resp = HttpResponse(json.dumps(ret), status=status, content_type='application/json')
+    for k, v in headers.items():
+        resp[k] = v
+    return resp
 
 
 class BaseView(ContextMixin, View):
@@ -18,7 +28,7 @@ class BaseView(ContextMixin, View):
     def __init__(self):
         super(BaseView, self).__init__()
         self.tags = Tag.objects.all()
-        self.all_comments = Comment.objects.all()
+        self.all_comments = MyComment.objects.all().order_by('-created_at')
 
     def count_tags(self):
         '''Generating the tag, and counting the amount of the articles of each tag.'''
@@ -32,6 +42,7 @@ class BaseView(ContextMixin, View):
 
     def show_comments(self):
         '''Show the latest comments on the pages'''
+        '''
         all_comments_list = []
         for comment in self.all_comments:
             submit_date = comment.submit_date
@@ -50,6 +61,8 @@ class BaseView(ContextMixin, View):
             reverse=True)
         all_comments_list = all_comments_list[:10]
         return all_comments_list
+        '''
+        return self.all_comments[:10]
 
     def get_context_data(self, **kwargs):
         context = super(BaseView, self).get_context_data(**kwargs)
@@ -155,6 +168,35 @@ class ShowBlogView(BaseView, TemplateView):
             'pre_post': rs['pre'],
         })
         return context
+
+
+class HandleCommentAsync(View):
+
+    def get(self, request, **kwargs):
+        from datetime import datetime
+
+        ret = {'comments': []}
+        blog = get_object_or_404(BlogPost, id=kwargs['id'])
+        get_comments = MyComment.objects.filter(blog=blog)
+
+        for comment in get_comments.order_by('-created_at'):
+            ret['comments'].append({
+                'author': comment.author,
+                'created_at': datetime.isoformat(comment.created_at),
+                'content': comment.content,
+            })
+        return render_json_response(ret, status=200)
+
+    def post(self, request, **kwargs):
+        ret = {}
+        form = MyCommentForm(request.POST)
+        if not form.is_valid():
+            return render_json_response(ret, status=400)
+        comment = form.save(commit=False)
+        blog = get_object_or_404(BlogPost, id=kwargs['id'])
+        comment.blog = blog
+        comment.save()
+        return render_json_response(ret, status=201)
 
 
 class ShowTagView(BaseView, TemplateView):
