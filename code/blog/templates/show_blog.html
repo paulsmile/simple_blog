@@ -59,34 +59,39 @@
             <p>{{ comment.comment }}</p>
           </div>
         {% endfor %}
-        <div class="row-fluid span5">
-            <div class="page-header">
-              <h4>发表评论:</h4>
-              <p>可用Ctrl+Enter快速提交</p>
-            </div>
-            {% get_comment_form for post as form %}
-            <table>
-              <form id="comment_from" action="{% comment_form_target %}" method="post">
-                {% csrf_token %}
-                {{form.object_pk}}
-                {{form.content_type}}
-                {{form.timestamp}}
-                {{form.security_hash}}
-          
-                <input type="text" name="name" placeholder="请输入您的昵称" id="id_name">
-                <input type="text" name="email" placeholder="请输入您的邮箱（不会被公开）" id="id_email">
-                <textarea id="id_comment" placeholder="请输入您的评论" rows="10" cols="30" name="comment"></textarea>
-                <input id="user_input_code" type="text" name="code" placeholder="请输入下方的验证码"/>
-                <input type="text" readonly="readonly" id="checkCode" class="code" style="width: 60px;" />
-                <p id="valid_failed"></p>
-                <tr>
-                  <td colspan="2">
-                  <input id="submit_comment" type="submit" disabled="true" name="submit" value="提交评论">
-                  </td>
-                </tr>
-              </form>
-            </table>
+        <div class="text-center">
+          <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#post_comment">发表评论</button>
         </div>
+        <div class="modal fade" id="post_comment" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+         <div class="modal-dialog modal-content">
+             <div class="modal-header">
+               <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">关闭</span></button>
+               <h4 class="modal-title" id="myModalLabel">发表评论:</h4>
+             </div>
+             <div class="modal-body" style="max-height: 800px;">
+               {% get_comment_form for post as form %}
+               <form id="comment_from" action="{% comment_form_target %}" method="post">
+                 <div class="row-fluid span7">
+                 {% csrf_token %}
+                 {{ form.object_pk }}
+                 {{ form.content_type }}
+                 {{ form.timestamp }}
+                 {{ form.security_hash }}
+                 <input type="text" name="name" placeholder="请输入您的昵称" id="id_name">
+                 <input type="text" name="email" placeholder="请输入您的邮箱（不会被公开）" id="id_email">
+                 <textarea id="id_comment" placeholder="请输入您的评论" rows="10" cols="30" name="comment"></textarea>
+                 <input id="user_input_code" type="text" name="code" placeholder="请输入右侧的验证码"/>
+                 <input type="text" readonly="readonly" id="checkCode" class="code" style="width: 60px;" />
+                 <p id="valid_failed"></p>
+                 </div>
+                 <div class="row-fluid span12 modal-footer">
+                   <input class="btn btn-info" id="submit_comment" type="submit" disabled="true" name="submit" value="提交评论">
+                 </div>
+               </form>
+             </div>
+           </div>
+         </div>
+
         <br>
     </div>
   {% include "sidebar.html" %}

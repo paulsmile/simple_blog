@@ -20,21 +20,21 @@
       <div class="posts_of_page text-center">
       <span class="paging">
       {% if posts_of_page.has_previous %}
-        <a href="?page={{ posts_of_page.previous_page_number }}"><font color="#0000cd">&#9664;上一页</font></a>
+        <a href="?page={{ posts_of_page.previous_page_number }}" style="text-decoration:none;"><font color="#0000cd">&#9664;上一页</font></a>
       {% endif %}
       <span>
         {% for num in page_range %}
-        <a href="?page={{ num }}">
+        <a href="?page={{ num }}" style="text-decoration:none;">
           {% ifequal num posts_of_page.number %}
-          <font color="#0000cd">{{ num }}</font>
-          {% else %}
           <font color="#3a87ad">{{ num }}</font>
+          {% else %}
+          <font color="#0000cd">{{ num }}</font>
           {% endifequal %}
         </a>
         {% endfor %}
       </span>
       {% if posts_of_page.has_next %}
-        <a href="?page={{ posts_of_page.next_page_number }}"><font color="#0000cd">下一页&#9654;</font></a>
+        <a href="?page={{ posts_of_page.next_page_number }}" style="text-decoration:none;"><font color="#0000cd">下一页&#9654;</font></a>
       {% endif %}
       </span>
       </div>
