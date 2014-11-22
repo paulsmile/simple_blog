@@ -56,13 +56,13 @@
 			<div class="modal fade" id="post_comment" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 				<div class="modal-dialog modal-content">
 					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">关闭</span></button>
+						<button id='post_comment' type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">关闭</span></button>
 						<h4 class="modal-title" id="myModalLabel">发表评论:</h4>
 					</div>
 					<div class="modal-body" style="max-height: 800px;">
 						<form id="comment_from" action="{% url 'handle_comment_async' post.id %}" method="post">
 							<div class="row-fluid span7">
-								<p id='comment_invalid'><p>
+								<p id='comment_invalid'></p>
 								<input type="text" name="author" placeholder="请输入您的昵称">
 								<input type="text" name="author_email" placeholder="请输入您的邮箱（不会被公开）">
 								<textarea placeholder="请输入您的评论" rows="10" cols="30" name="content"></textarea>
@@ -104,6 +104,10 @@ $(document).ready(function() {
 			}
 		);
 		return false;
+	});
+
+	$('#post_comment').click(function() {
+		$('#comment_invalid').text('');
 	});
 });
 
