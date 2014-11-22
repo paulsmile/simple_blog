@@ -29,7 +29,6 @@ class BaseView(ContextMixin, View):
     def __init__(self):
         super(BaseView, self).__init__()
         self.tags = Tag.objects.all()
-        self.all_comments = MyComment.objects.all().order_by('-created_at')
 
     def count_tags(self):
         '''Generating the tag, and counting the amount of the articles of each tag.'''
@@ -41,15 +40,10 @@ class BaseView(ContextMixin, View):
             tags_list['%s' % tag.tag_name] = tag_amount
         return tags_list
 
-    def show_comments(self):
-        '''Show the latest comments on the pages'''
-        return self.all_comments[:10]
-
     def get_context_data(self, **kwargs):
         context = super(BaseView, self).get_context_data(**kwargs)
         context.update({
             'tags_list': self.count_tags(),
-            'all_comments_list': self.show_comments(),
         })
 
         return context
@@ -182,7 +176,7 @@ class GetAllCommentsAsync(View):
 
     def get(self, request, **kwargs):
         ret = {'comments': []}
-        all_comments = MyComment.objects.all().order_by('-created_at')[:10]
+        all_comments = MyComment.objects.all().order_by('-created_at')[:5]
 
         for comment in all_comments:
             ret['comments'].append({
