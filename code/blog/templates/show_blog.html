@@ -89,7 +89,6 @@
 
 $(document).ready(function() {
 	getComment();
-
 	$('#comment_from').bind('submit', function() {
 		ajaxSubmit(
 			this,
@@ -97,6 +96,7 @@ $(document).ready(function() {
 				//Valid request function
 				$('#post_comment').modal('hide');
 				getComment();
+				getAllComments();
 			},
 			function(data) {
 				//Invalid request function
@@ -113,13 +113,15 @@ $(document).ready(function() {
 
 function getComment() {
 	var url = "{% url 'handle_comment_async' post.id %}";
+	$('#comment_content').text('');
 	$.getJSON(url, function(data) {
 		var comment_num = data.comments.length;
 		$('#comment_num').text('这篇文章有' + comment_num + '条评论：');
-		$.each(data.comments, function(idx, comment){
-			$('#comment_content').append(
-				"<div class='alert alert-success'><p><small>" + comment.author + "&nbsp;&nbsp;发表于&nbsp;&nbsp;" + comment.created_at + "&nbsp;:</small></p><p>" + comment.content + "</p></div>"
-			);
+		$.each(data.comments, function(idx, comment) {
+			var content = "<div class='alert alert-success'><p><small>" + comment.author;
+			content += "&nbsp;&nbsp;发表于&nbsp;&nbsp;" + comment.created_at;
+			content += "&nbsp;:</small></p><p>" + comment.content + "</p></div>";
+			$('#comment_content').append(content);
 		});
 	});
 }

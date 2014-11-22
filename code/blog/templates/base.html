@@ -11,11 +11,11 @@
   <script  src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 <![endif] -->
 <title>
-  {% block title %}{% endblock %}
+	{% block title %}{% endblock %}
 </title>
 <style>
 .page-header{
-  border-bottom: 1px solid #3A87AD
+	border-bottom: 1px solid #3A87AD
 }
 </style>
 {% block extra_head %}
@@ -24,29 +24,29 @@
 </head>
 <body onload="prettyPrint()" id="top">
 <div class="container">
-  <div class="navbar">
-    <div class="navbar-inner" >
-     <ul class="nav">
-     <li><h4 class="main_title">CJYFFF</h4></li>
-     <li class="divider-vertical"></li>
-     <li><a href="/index">首页</a></li>
-     <li class="divider-vertical"></li>
-    </ul>
-    <ul class="nav pull-right">
-      <li><a href="{% url 'RSS_url' %}">
-        <img src="{% static "photos/rss.jpg" %}" width="20" height="20"/>
-        RSS</a>
-      </li>
-      <li class="divider-vertical"></li>
-      <li><a href="https://github.com/cjyfff" target="_blank">我的开源项目</a></li>
-    </ul>
-  </div>
-  </div>
-  <div>
-    <h2 class="main_title">&nbsp;CJYFFF的简单BLOG</h2>
-    <h2><small>&nbsp;&nbsp;——&nbsp;powered by Django</small></h2>
-    <p class="page-header"></p>
-  </div>
+	<div class="navbar">
+		<div class="navbar-inner" >
+			<ul class="nav">
+				<li><h4 class="main_title">CJYFFF</h4></li>
+				<li class="divider-vertical"></li>
+				<li><a href="/index">首页</a></li>
+				<li class="divider-vertical"></li>
+			</ul>
+			<ul class="nav pull-right">
+				<li><a href="{% url 'RSS_url' %}">
+					<img src="{% static "photos/rss.jpg" %}" width="20" height="20"/>
+					RSS</a>
+				</li>
+				<li class="divider-vertical"></li>
+				<li><a href="https://github.com/cjyfff" target="_blank">我的开源项目</a></li>
+			</ul>
+		</div>
+	</div>
+	<div>
+		<h2 class="main_title">&nbsp;CJYFFF的简单BLOG</h2>
+		<h2><small>&nbsp;&nbsp;——&nbsp;powered by Django</small></h2>
+		<p class="page-header"></p>
+	</div>
 </div>
 
 {% block body %}
@@ -60,22 +60,22 @@
 {% block extra_tail %}
 {% endblock %}
 <div class="container">
-  <div id="bottom_bar">  
-    <p class="page-header"></p>
-      <div class="row-fluid">
-        <div class="span3" align="center">
-          <p><b>感谢浏览此博客</b></p>		   
-          <img src="{% static "photos/logo.jpeg" %}" width="60" height="60"/>
-        </div>
-        <div class="span5">
-          <p><b>关于: </b></p>
-          <p>本博客后端采用Django框架，前端采用Bootstrap框架。</p>
-          <p>感谢python，让我从新找到编程的乐趣 ！</p>
-        </div>
-       </div>
-    <br>
-  </div>
-  <br>
+	<div id="bottom_bar">
+		<p class="page-header"></p>
+		<div class="row-fluid">
+			<div class="span3" align="center">
+				<p><b>感谢浏览此博客</b></p>
+				<img src="{% static "photos/logo.jpeg" %}" width="60" height="60"/>
+			</div>
+			<div class="span5">
+				<p><b>关于: </b></p>
+				<p>本博客后端采用Django框架，前端采用Bootstrap框架。</p>
+				<p>感谢python，让我从新找到编程的乐趣 ！</p>
+			</div>
+		</div>
+		<br>
+	</div>
+	<br>
 </div>
 </body>
 </html>

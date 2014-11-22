@@ -1,40 +1,31 @@
 <div class="span3 sidebar">
-  <div class="alert alert-info">      
-    <div>	      
-      <h3 class="page-header">关于博主</h3>
-      <p><b>一个在地球online苦苦练级的程序猿，武器是python，js和c。
-      来自广东工业大学。求各位大牛带带小的刷这个副本。</b></p>
-      <br>      
-      <p><b>联系我：</b></p>
-      <p><b>邮箱: </b>cjyfff#163.com</p>
-      <p><b>QQ: </b>631127458</p>
-    </div>
-    <br>
-  <div>
-    <h4 class="page-header">我的标签</h4>
-    <br>
-    <ul>
-      {% for k, v in tags_list.iteritems %}
-        <li>
-          <p><a href="{% url 'show_tag' k %}">{{ k }}: ({{ v }})</a></p>
-        </li>
-      {% endfor %}
-  </ul>
-  <br>
-  </div>
-  <div>
-    <h4 class="page-header">最新评论</h4>
-    <br>
-    <ul>
-      {% for comment in all_comments_list %}
-        <li>
-        <p><b><a href="{% url 'show_blog' comment.blog.id %}">
-        {{ comment.author }}&nbsp;&nbsp;回复：{{ comment.blog.title }}：</a></b></p>
-        <p>{{ comment.content }}</p>
-        </li>
-      {% endfor %}
-    </ul>
-    <br>
-  </div>
-  </div>
+	<div class="alert alert-info">
+		<div>
+			<h3 class="page-header">关于博主</h3>
+			<p><b>一个在地球online苦苦练级的程序猿，武器是python，js和c。来自广东工业大学。求各位大牛带带小的刷这个副本。</b></p>
+			<br>
+			<p><b>联系我：</b></p>
+			<p><b>邮箱: </b>cjyfff#163.com</p>
+			<p><b>QQ: </b>631127458</p>
+		</div>
+		<br>
+		<div>
+			<h4 class="page-header">我的标签</h4>
+			<br>
+			<ul>
+				{% for k, v in tags_list.iteritems %}
+				<li>
+					<p><a href="{% url 'show_tag' k %}">{{ k }}: ({{ v }})</a></p>
+				</li>
+				{% endfor %}
+			</ul>
+			<br>
+		</div>
+		<div>
+			<h4 class="page-header">最新评论</h4>
+			<br>
+			<ul id='all_comments'></ul>
+			<br>
+		</div>
+	</div>
 </div>

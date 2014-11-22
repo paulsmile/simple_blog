@@ -13,6 +13,7 @@ from django.http import HttpResponse
 from blog.models import BlogPost, Tag, MyComment
 from blog.forms import MyCommentForm
 
+from datetime import datetime
 import json
 
 
@@ -153,8 +154,6 @@ class ShowBlogView(BaseView, TemplateView):
 class HandleCommentAsync(View):
 
     def get(self, request, **kwargs):
-        from datetime import datetime
-
         ret = {'comments': []}
         blog = get_object_or_404(BlogPost, id=kwargs['id'])
         get_comments = MyComment.objects.filter(blog=blog)
@@ -177,6 +176,23 @@ class HandleCommentAsync(View):
         comment.blog = blog
         comment.save()
         return render_json_response(ret, status=201)
+
+
+class GetAllCommentsAsync(View):
+
+    def get(self, request, **kwargs):
+        ret = {'comments': []}
+        all_comments = MyComment.objects.all().order_by('-created_at')[:10]
+
+        for comment in all_comments:
+            ret['comments'].append({
+                'author': comment.author,
+                'created_at': datetime.isoformat(comment.created_at),
+                'content': comment.content,
+                'blog_id': comment.blog.id,
+                'blog_title': comment.blog.title,
+            })
+        return render_json_response(ret, status=200)
 
 
 class ShowTagView(BaseView, TemplateView):

@@ -2,12 +2,12 @@
 此博客目前已经部署到SAE[（地址）](http://cjyfff.sinaapp.com)   
     
 ###依赖：    
-1、django 1.6    
-2、python 2.7   
-3、django-contrib-comments    
-4、markdown      
-5、JQuery 1.11   
-6、BootStrap 2.2.2   
+django == 1.6    
+python == 2.7   
+markdown == 2.4    
+JQuery == 1.11   
+BootStrap == 2.2.2   
+factory-boy == 2.4.1    
     
 ###目前已经实现的功能：    
 1、博客正文支持markdown语法，支持代码高亮    

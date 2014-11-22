@@ -3,7 +3,7 @@ from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from django.views.decorators.csrf import csrf_exempt
 from blog.views import (RSSFeed, IndexView, IndexRedirectView, ShowBlogView,
-                        ShowTagView, HandleCommentAsync)
+                        ShowTagView, HandleCommentAsync, GetAllCommentsAsync)
 from weixin.views import weixin_api
 from django.conf import settings
 
@@ -16,6 +16,7 @@ urlpatterns = patterns('',
     url(r'^$', IndexRedirectView.as_view(), name='index_redirect'),
     url(r'^blog/(?P<id>\d+)/$', ShowBlogView.as_view(), name='show_blog'),
     url(r'^blog/(?P<id>\d+)/comment/$', csrf_exempt(HandleCommentAsync.as_view()), name='handle_comment_async'),
+    url(r'^blog/all_comments/$', GetAllCommentsAsync.as_view(), name='get_all_comments'),
     url(r'^tag_page/(?P<tag_name>.+)/$', ShowTagView.as_view(), name='show_tag'),
 
     url(r'^latest/feed/$', RSSFeed(), name='RSS_url'),
