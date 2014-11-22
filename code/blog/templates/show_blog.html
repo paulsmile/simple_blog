@@ -48,7 +48,7 @@
 			</p>
 
 			<h4 class="page-header"><small id='comment_num'></small></h4>
-			<div id='comment_content'></div>
+			<div id='comment_content' data-url="{% url 'handle_comment_async' post.id %}"></div>
 
 			<div class="text-center">
 				<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#post_comment">发表评论</button>
@@ -112,7 +112,7 @@ $(document).ready(function() {
 });
 
 function getComment() {
-	var url = "{% url 'handle_comment_async' post.id %}";
+	var url = $('#comment_content').attr('data-url');
 	$('#comment_content').text('');
 	$.getJSON(url, function(data) {
 		var comment_num = data.comments.length;
@@ -120,7 +120,7 @@ function getComment() {
 		$.each(data.comments, function(idx, comment) {
 			var content = "<div class='alert alert-success'><p><small>" + comment.author;
 			content += "&nbsp;&nbsp;发表于&nbsp;&nbsp;" + comment.created_at;
-			content += "&nbsp;:</small></p><p>" + comment.content + "</p></div>";
+			content += "&nbsp;</small></p><p>" + comment.content + "</p></div>";
 			$('#comment_content').append(content);
 		});
 	});

@@ -13,7 +13,6 @@ from django.http import HttpResponse
 from blog.models import BlogPost, Tag, MyComment
 from blog.forms import MyCommentForm
 
-from datetime import datetime
 import json
 
 
@@ -22,6 +21,11 @@ def render_json_response(ret, status=200, headers={}):
     for k, v in headers.items():
         resp[k] = v
     return resp
+
+
+def get_format_time(date_time):
+    return '%s-%s-%s %s:%s' % (date_time.year, date_time.month, date_time.day,
+                               date_time.hour, date_time.minute)
 
 
 class BaseView(ContextMixin, View):
@@ -155,7 +159,7 @@ class HandleCommentAsync(View):
         for comment in get_comments.order_by('-created_at'):
             ret['comments'].append({
                 'author': comment.author,
-                'created_at': datetime.isoformat(comment.created_at),
+                'created_at': get_format_time(comment.created_at),
                 'content': comment.content,
             })
         return render_json_response(ret, status=200)
@@ -181,7 +185,7 @@ class GetAllCommentsAsync(View):
         for comment in all_comments:
             ret['comments'].append({
                 'author': comment.author,
-                'created_at': datetime.isoformat(comment.created_at),
+                'created_at': get_format_time(comment.created_at),
                 'content': comment.content,
                 'blog_id': comment.blog.id,
                 'blog_title': comment.blog.title,

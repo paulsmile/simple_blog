@@ -94,11 +94,11 @@ function top_btn() {
 }
 
 function getAllComments() {
-	var url = '/blog/all_comments/';
+	var url = $('#all_comments').attr('data-url');
 	$('#all_comments').text('');
 	$.getJSON(url, function(data) {
 		$.each(data.comments, function(idx, comment) {
-			var all_comments = "<li><p><b><a href='/blog/" + comment.blog_id + "/'>";
+			var all_comments = "<li><p><b><a href='/blog/" + comment.blog_id + "#comment_content'>";
 			all_comments += comment.author + "&nbsp;&nbsp;回复：" + comment.blog_title + "：</a></b></p>";
 			all_comments += "<p>" + comment.content + "</p></li>";
 			$('#all_comments').append(all_comments);
