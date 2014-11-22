@@ -62,6 +62,7 @@
 					<div class="modal-body" style="max-height: 800px;">
 						<form id="comment_from" action="{% url 'handle_comment_async' post.id %}" method="post">
 							<div class="row-fluid span7">
+								<p id='comment_invalid'><p>
 								<input type="text" name="author" placeholder="请输入您的昵称">
 								<input type="text" name="author_email" placeholder="请输入您的邮箱（不会被公开）">
 								<textarea placeholder="请输入您的评论" rows="10" cols="30" name="content"></textarea>
@@ -89,15 +90,17 @@
 $(document).ready(function() {
 	getComment();
 
-	$('#comment_from').bind('submit', function(){
-		console.log('98');
+	$('#comment_from').bind('submit', function() {
 		ajaxSubmit(
-			this, 
-			function(data){
-				alert(data);
+			this,
+			function(data) {
+				//Valid request function
+				$('#post_comment').modal('hide');
+				getComment();
 			},
-			function(data){
-				alert('False');
+			function(data) {
+				//Invalid request function
+				$('#comment_invalid').text('您填写的信息有误，请重新填写');
 			}
 		);
 		return false;
