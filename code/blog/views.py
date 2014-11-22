@@ -42,26 +42,6 @@ class BaseView(ContextMixin, View):
 
     def show_comments(self):
         '''Show the latest comments on the pages'''
-        '''
-        all_comments_list = []
-        for comment in self.all_comments:
-            submit_date = comment.submit_date
-            name = comment.name
-            content = comment.comment
-            blog_title = BlogPost.objects.get(id=comment.object_pk).title
-            blog_id = comment.object_pk
-            all_comments_list.append([
-                submit_date,
-                name,
-                content,
-                blog_title,
-                blog_id,
-            ])
-        all_comments_list = sorted(all_comments_list, key=lambda x: x[0],
-            reverse=True)
-        all_comments_list = all_comments_list[:10]
-        return all_comments_list
-        '''
         return self.all_comments[:10]
 
     def get_context_data(self, **kwargs):

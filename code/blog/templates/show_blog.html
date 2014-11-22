@@ -2,99 +2,148 @@
 {% block title %}CJYFFF的简单BLOG: {{ post.title }}{% endblock %}
 
 {% block body %}
-{% load comments %}
+
 {% load text_markup %}
 {% load staticfiles %}
 <div class="container">
-  <div id="content" class="row-fluid">
-    <div class="span9 main">
-      <h3 class="main_title">{{ post.title }}</h3>
-        <h2><small>{{ post.author }}</small></h2>
-        <h3><small>{{ post.timestamp|date:"Y.n.d H:i" }}</small></h3>
+	<div id="content" class="row-fluid">
+		<div class="span9 main">
+			<h3 class="main_title">{{ post.title }}</h3>
+			<h2><small>{{ post.author }}</small></h2>
+			<h3><small>{{ post.timestamp|date:"Y.n.d H:i" }}</small></h3>
+			<div class="post_content">
+				{% for var in context_list %}
+				{% ifequal var.discern 'paragraph' %}
+				<p>{{ var.paragraph|markdown }} </p>
+				{% endifequal %}
+				{% ifequal var.discern 'code' %}
+				<p><pre class="prettyprint">{{ var.content }}</pre></p>
+				{% endifequal %}
 
-        <div class="post_content">
-          {% for var in context_list %}        
-            {% ifequal var.discern 'paragraph' %}
-              <p>{{ var.paragraph|markdown }} </p>
-            {% endifequal %}
-                  
-            {% ifequal var.discern 'code' %}
-              <p><pre class="prettyprint">{{ var.content }}</pre></p>
-            {% endifequal %}
-                  
-            {% ifequal var.discern 'photo' %}
-              <img src="{{ var.url }}"/>
-              <br>
-              <br>
-            {% endifequal %}
-          {% endfor %}
-        </div>
-        <br>
-        <div class="alert alert-info">
-          <p>这篇文章是cjyfff的原创内容，欢迎各位转载，但请保留出处: 
-          http://cjyfff.sinaapp.com/blog/{{ post.id }}，感谢！</p>
-        </div>
-        <br></br>
-        <p>下一篇文章：
-        {% if next_post %}
-          <a href="{% url 'show_blog' next_post.id %}">{{ next_post.title }}</a>
-        {% else %}
-          没有了
-        {% endif %}
-        </p>
-        <p>上一篇文章：
-        {% if pre_post %}
-          <a href="{% url 'show_blog' pre_post.id %}">{{ pre_post.title }}</a>
-        {% else %}
-          没有了
-        {% endif %}
-        
-        {% get_comment_count for post as comment_count %}
-        <h4 class="page-header"><small>这篇文章有 {{ comment_count }} 条评论：</small></h4>
-        {# Django'comment module will get the post's id automatically, accoding to the post aleardly being the object of the BlogPost. #}
-        {% get_comment_list for post as comment_list %}
-        {% for comment in comment_list %}
-          <div class="alert alert-success">
-            <p><small>{{ comment.name }}&nbsp;&nbsp;发表于&nbsp;&nbsp;{{ comment.submit_date|date:"Y.n.d H:i" }}&nbsp;:</small></p>
-            <p>{{ comment.comment }}</p>
-          </div>
-        {% endfor %}
-        <div class="text-center">
-          <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#post_comment">发表评论</button>
-        </div>
-        <div class="modal fade" id="post_comment" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-         <div class="modal-dialog modal-content">
-             <div class="modal-header">
-               <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">关闭</span></button>
-               <h4 class="modal-title" id="myModalLabel">发表评论:</h4>
-             </div>
-             <div class="modal-body" style="max-height: 800px;">
-               {% get_comment_form for post as form %}
-               <form id="comment_from" action="{% comment_form_target %}" method="post">
-                 <div class="row-fluid span7">
-                 {% csrf_token %}
-                 {{ form.object_pk }}
-                 {{ form.content_type }}
-                 {{ form.timestamp }}
-                 {{ form.security_hash }}
-                 <input type="text" name="name" placeholder="请输入您的昵称" id="id_name">
-                 <input type="text" name="email" placeholder="请输入您的邮箱（不会被公开）" id="id_email">
-                 <textarea id="id_comment" placeholder="请输入您的评论" rows="10" cols="30" name="comment"></textarea>
-                 <input id="user_input_code" type="text" name="code" placeholder="请输入右侧的验证码"/>
-                 <input type="text" readonly="readonly" id="checkCode" class="code" style="width: 60px;" />
-                 <p id="valid_failed"></p>
-                 </div>
-                 <div class="row-fluid span12 modal-footer">
-                   <input class="btn btn-info" id="submit_comment" type="submit" disabled="true" name="submit" value="提交评论">
-                 </div>
-               </form>
-             </div>
-           </div>
-         </div>
+				{% ifequal var.discern 'photo' %}
+				<img src="{{ var.url }}"/>
+				<br>
+				<br>
+				{% endifequal %}
+				{% endfor %}
+			</div>
+			<br>
+			<div class="alert alert-info">
+				<p>这篇文章是cjyfff的原创内容，欢迎各位转载，但请保留出处: http://cjyfff.sinaapp.com/blog/{{ post.id }}，感谢！</p>
+			</div>
+			<br>
+			<p>下一篇文章：
+				{% if next_post %}
+				<a href="{% url 'show_blog' next_post.id %}">{{ next_post.title }}</a>
+				{% else %}
+				没有了
+				{% endif %}
+			</p>
+			<p>上一篇文章：
+				{% if pre_post %}
+				<a href="{% url 'show_blog' pre_post.id %}">{{ pre_post.title }}</a>
+				{% else %}
+				没有了
+				{% endif %}
+			</p>
 
-        <br>
-    </div>
-  {% include "sidebar.html" %}
-  </div>
+			<h4 class="page-header"><small id='comment_num'></small></h4>
+			<div id='comment_content'></div>
+
+			<div class="text-center">
+				<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#post_comment">发表评论</button>
+			</div>
+			<div class="modal fade" id="post_comment" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">关闭</span></button>
+						<h4 class="modal-title" id="myModalLabel">发表评论:</h4>
+					</div>
+					<div class="modal-body" style="max-height: 800px;">
+						<form id="comment_from" action="{% url 'handle_comment_async' post.id %}" method="post">
+							<div class="row-fluid span7">
+								<input type="text" name="author" placeholder="请输入您的昵称">
+								<input type="text" name="author_email" placeholder="请输入您的邮箱（不会被公开）">
+								<textarea placeholder="请输入您的评论" rows="10" cols="30" name="content"></textarea>
+								<input id="user_input_code" type="text" name="code" placeholder="请输入右侧的验证码"/>
+								<input type="text" readonly="readonly" id="checkCode" class="code" style="width: 60px;" />
+								<p id="valid_failed"></p>
+							</div>
+							<div class="row-fluid span12 modal-footer">
+								<input class="btn btn-info" id="submit_comment" type="submit" disabled="true" name="submit" value="提交评论">
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			<br>
+		</div>
+		{% include "sidebar.html" %}
+	</div>
 </div>
+{% endblock %}
+
+{% block extra_tail %}
+<script>
+
+$(document).ready(function() {
+	getComment();
+
+	$('#comment_from').bind('submit', function(){
+		console.log('98');
+		ajaxSubmit(
+			this, 
+			function(data){
+				alert(data);
+			},
+			function(data){
+				alert('False');
+			}
+		);
+		return false;
+	});
+});
+
+function getComment() {
+	var url = "{% url 'handle_comment_async' post.id %}";
+	$.getJSON(url, function(data) {
+		var comment_num = data.comments.length;
+		$('#comment_num').text('这篇文章有' + comment_num + '条评论：');
+		$.each(data.comments, function(idx, comment){
+			$('#comment_content').append(
+				"<div class='alert alert-success'><p><small>" + comment.author + "&nbsp;&nbsp;发表于&nbsp;&nbsp;" + comment.created_at + "&nbsp;:</small></p><p>" + comment.content + "</p></div>"
+			);
+		});
+	});
+}
+
+function ajaxSubmit(frm, fs, ff) {
+	var dataPara = getFormJson(frm);
+	$.ajax({
+		url: frm.action,
+		type: frm.method,
+		data: dataPara,
+		success: fs,
+		error: ff,
+	});
+}
+
+function getFormJson(frm) {
+	var o = {};
+	var a = $(frm).serializeArray();
+	$.each(a, function () {
+		if (o[this.name] !== undefined) {
+			if (!o[this.name].push) {
+				o[this.name] = [o[this.name]];
+			}
+			o[this.name].push(this.value || '');
+		} else {
+			o[this.name] = this.value || '';
+		}
+	});
+	return o;
+}
+
+</script>
+
 {% endblock %}

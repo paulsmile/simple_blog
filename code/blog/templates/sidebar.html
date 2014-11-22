@@ -26,11 +26,11 @@
     <h4 class="page-header">最新评论</h4>
     <br>
     <ul>
-      {% for all_comment in all_comments_list %}
+      {% for comment in all_comments_list %}
         <li>
-        <p><b><a href="{% url 'show_blog' all_comment.4 %}">
-        {{ all_comment.1 }}&nbsp;&nbsp;回复：{{ all_comment.3 }}：</a></b></p>
-        <p>{{ all_comment.2 }}</p>
+        <p><b><a href="{% url 'show_blog' comment.blog.id %}">
+        {{ comment.author }}&nbsp;&nbsp;回复：{{ comment.blog.title }}：</a></b></p>
+        <p>{{ comment.content }}</p>
         </li>
       {% endfor %}
     </ul>
