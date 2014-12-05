@@ -14,6 +14,11 @@ from blog.models import BlogPost, Tag, MyComment
 from blog.forms import MyCommentForm
 
 import json
+import paho.mqtt.client as mqtt
+from random import randint
+import struct
+import time
+
 
 
 def render_json_response(ret, status=200, headers={}):
@@ -27,6 +32,66 @@ def get_format_time(date_time):
     return '%s-%s-%s %s:%s' % (date_time.year, date_time.month, date_time.day,
                                date_time.hour, date_time.minute)
 
+
+
+def get_gokit_led(level):
+
+    did = "wz2TXX7UMnMqbqzrRiMBUL"
+    client_id = "usr"+str(randint(0,1000000000))
+    print client_id
+
+    # The callback for when the client receives a CONNACK response from the server.
+    def on_connect(client, userdata, flags, rc):
+        print("Connected with result code "+str(rc))
+
+    # The callback for when a PUBLISH message is received from the server.
+    def on_message(client, userdata, msg):
+        pl = msg.payload
+        print pl.encode('hex')
+        print("on_message:"+msg.topic+" \n"+repr(msg.payload))
+
+    def on_disconnect(client, userdata, rc):
+        if rc != 0:
+            print("Unexpected disconnection.")
+
+    def on_subscribe(client, userdata, mid, granted_qos):
+        print("on_subscribe")
+
+    def on_publish(client, userdata, mid):
+        print 'on publish'
+
+    try:
+        client = mqtt.Client(client_id=client_id, clean_session=True, userdata=None, protocol=mqtt.MQTTv31)
+        client.on_connect = on_connect
+        client.on_disconnect = on_disconnect
+        client.on_message = on_message
+        client.on_subscribe = on_subscribe
+        client.on_publish = on_publish
+
+        client.username_pw_set("2$42a7563f305342ae805cbb21d968a0ce$a6f899f25e734fd58ff0fca1dae1388d", "ba4214b178d5449c894986b10f00f91d")
+        client.connect("m2m.gizwits.com", 1883, 55)
+    except KeyboardInterrupt:
+        client.stop()
+
+    topic = "dev2app/"+did
+    print(topic)
+    print client.subscribe(topic)
+    topic = "app2dev/"+did+"/"+client_id
+    if level == 1:
+        array = bytearray(struct.pack('!LBBBBBBBBBBBB',3, ord('\x0b'), ord('\x00'),
+                    ord('\x00'), ord('\x09'), ord('\x01'), ord('\x1c'), ord('\x00'), 128, ord('\x00'),  ord('\x00'), ord('\x00'), ord('\x00')))
+        print client.publish(topic, array, retain=True)
+    elif level == 2:
+        array = bytearray(struct.pack('!LBBBBBBBBBBBB',3, ord('\x0b'), ord('\x00'),
+                    ord('\x00'), ord('\x09'), ord('\x01'), ord('\x1c'), ord('\x00'), 128, ord('\x00'), 64, ord('\x00'), ord('\x00')))
+        print client.publish(topic, array, retain=True)
+    elif level == 3:
+        array = bytearray(struct.pack('!LBBBBBBBBBBBB',3, ord('\x0b'), ord('\x00'),
+                    ord('\x00'), ord('\x09'), ord('\x01'), ord('\x1c'), ord('\x00'), 4, 2, 1, ord('\x00'), ord('\x00')))
+        print client.publish(topic, array, retain=True)
+
+    time.sleep(1)
+    client.loop(1)
 
 class BaseView(ContextMixin, View):
 
@@ -234,9 +299,9 @@ class GokitGetWeather(TemplateView):
 
 class GokitGetWeatherAsync(View):
 
-    def post(self, request, **kwargs):
+    def get(self, request, **kwargs):
         import requests
-        city = request.POST.get('city')
+        city = request.GET.get('city')
         url = 'http://api.map.baidu.com/telematics/v3/weather?location=%s&output=json&ak=5slgyqGDENN7Sy7pw29IUvrZ' % city
         r = requests.get(url)
         weather_data = json.loads(r.content)['results'][0]['weather_data']
@@ -250,7 +315,7 @@ class GokitGetWeatherAsync(View):
         elif t_weather_data.find(u'雨'):
             weather_info = 3
         else:
-            t_weather_data = 4
-
+            weather_info = 4
+        get_gokit_led(weather_info)
         ret = {'weather_info': weather_info}
         return render_json_response(ret, status=200)
