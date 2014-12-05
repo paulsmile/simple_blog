@@ -78,16 +78,45 @@ def get_gokit_led(level):
     print client.subscribe(topic)
     topic = "app2dev/"+did+"/"+client_id
     if level == 1:
+        '''晴:红色代表'''
         array = bytearray(struct.pack('!LBBBBBBBBBBBB',3, ord('\x0b'), ord('\x00'),
                     ord('\x00'), ord('\x09'), ord('\x01'), ord('\x1c'), ord('\x00'), 128, ord('\x00'),  ord('\x00'), ord('\x00'), ord('\x00')))
         print client.publish(topic, array, retain=True)
     elif level == 2:
+        '''多云：紫色代表'''
         array = bytearray(struct.pack('!LBBBBBBBBBBBB',3, ord('\x0b'), ord('\x00'),
                     ord('\x00'), ord('\x09'), ord('\x01'), ord('\x1c'), ord('\x00'), 128, ord('\x00'), 64, ord('\x00'), ord('\x00')))
         print client.publish(topic, array, retain=True)
     elif level == 3:
+        '''小雨:暗色'''
         array = bytearray(struct.pack('!LBBBBBBBBBBBB',3, ord('\x0b'), ord('\x00'),
                     ord('\x00'), ord('\x09'), ord('\x01'), ord('\x1c'), ord('\x00'), 4, 2, 1, ord('\x00'), ord('\x00')))
+        print client.publish(topic, array, retain=True)
+
+    elif level == 4:
+        '''阴转多云:绿色代表'''
+        array = bytearray(struct.pack('!LBBBBBBBBBBBB',3, ord('\x0b'), ord('\x00'),
+                    ord('\x00'), ord('\x09'), ord('\x01'), ord('\x1c'), ord('\x00'), 2, 128, 1, ord('\x00'), ord('\x00')))
+        print client.publish(topic, array, retain=True)
+    elif level == 5:
+        '''晴转多云：蓝色代表'''
+        array = bytearray(struct.pack('!LBBBBBBBBBBBB',3, ord('\x0b'), ord('\x00'),
+                    ord('\x00'), ord('\x09'), ord('\x01'), ord('\x1c'), ord('\x00'), 2, 128, 180, ord('\x00'), ord('\x00')))
+        print client.publish(topic, array, retain=True)
+    elif level == 6:
+        '''阴天: 暗绿色代表'''
+        array = bytearray(struct.pack('!LBBBBBBBBBBBB',3, ord('\x0b'), ord('\x00'),
+                    ord('\x00'), ord('\x09'), ord('\x01'), ord('\x1c'), ord('\x00'), 0, 2, 0, ord('\x00'), ord('\x00')))
+        print client.publish(topic, array, retain=True)
+    elif level == 7:
+        '''阴转小雨:光绿色代表'''
+        array = bytearray(struct.pack('!LBBBBBBBBBBBB',3, ord('\x0b'), ord('\x00'),
+                    ord('\x00'), ord('\x09'), ord('\x01'), ord('\x1c'), ord('\x00'), 10, 254, 40, ord('\x00'), ord('\x00')))
+        print client.publish(topic, array, retain=True)
+    elif level == 8:
+        '''代表其它:浅蓝色代表'''
+        array = bytearray(struct.pack('!LBBBBBBBBBBBB',3, ord('\x0b'), ord('\x00'),
+                    ord('\x00'), ord('\x09'), ord('\x01'), ord('\x1c'), ord('\x00'), 0, 8, 12, ord('\x00'), ord('\x00')))
         print client.publish(topic, array, retain=True)
 
     time.sleep(1)
@@ -307,15 +336,22 @@ class GokitGetWeatherAsync(View):
         weather_data = json.loads(r.content)['results'][0]['weather_data']
         # torrow weather
         t_weather_data = weather_data[0]['weather']
-
-        if t_weather_data.find(u'晴'):
-            weather_info = 1
-        elif t_weather_data.find(u'多云'):
-            weather_info = 2
-        elif t_weather_data.find(u'雨'):
+        print t_weather_data
+        if t_weather_data == u'小雨':
             weather_info = 3
-        else:
+        elif t_weather_data == u'多云':
+            weather_info = 2
+        elif t_weather_data == u'晴':
+            weather_info = 1
+        elif t_weather_data == u'阴转多云':
             weather_info = 4
+        elif t_weather_data == u'晴转多云':
+            weather_info = 5
+        elif t_weather_data == u'阴':
+            weather_info = 6
+        elif t_weather_data == u'阴转小雨':
+            weather_info = 7
+        else:
+            weather_info = 8
         get_gokit_led(weather_info)
-        ret = {'weather_info': weather_info}
-        return render_json_response(ret, status=200)
+        return render_json_response(json.loads(r.content)['results'][0], status=200)
