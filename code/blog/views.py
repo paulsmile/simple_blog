@@ -226,3 +226,31 @@ class RSSFeed(Feed):
 
     def item_link(self, item):
         return settings.DOMAIN + reverse('show_blog', kwargs={'id': item.id})
+
+
+class GokitGetWeather(TemplateView):
+    template_name = 'gokit/get_weather.html'
+
+
+class GokitGetWeatherAsync(View):
+
+    def post(self, request, **kwargs):
+        import requests
+        city = request.POST.get('city')
+        url = 'http://api.map.baidu.com/telematics/v3/weather?location=%s&output=json&ak=5slgyqGDENN7Sy7pw29IUvrZ' % city
+        r = requests.get(url)
+        weather_data = json.loads(r.content)['results'][0]['weather_data']
+        # torrow weather
+        t_weather_data = weather_data[0]['weather']
+
+        if t_weather_data.find(u'晴'):
+            weather_info = 1
+        elif t_weather_data.find(u'多云'):
+            weather_info = 2
+        elif t_weather_data.find(u'雨'):
+            weather_info = 3
+        else:
+            t_weather_data = 4
+
+        ret = {'weather_info': weather_info}
+        return render_json_response(ret, status=200)

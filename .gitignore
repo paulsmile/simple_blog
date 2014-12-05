@@ -54,4 +54,5 @@ docs/_build/
 
 #Django
 settings.py
+local_settings.py
 site-packages/

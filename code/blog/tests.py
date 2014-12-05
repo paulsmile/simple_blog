@@ -53,3 +53,15 @@ class GetAllCommentsAsyncTest(TestCase):
         self.assertEqual(resp.status_code, 200)
         comments = json.loads(resp.content)['comments']
         self.assertEqual(len(comments), 5)
+
+
+class GokitGetWeather(TestCase):
+
+    def setUp(self):
+        self.url = reverse('gokit_get_weather_async')
+
+    def test_get_weather(self):
+        d = {'city': u'北京'}
+        resp = self.client.post(self.url, d)
+        resp = json.loads(resp.content)
+        self.assertTrue('weather_info' in resp)
